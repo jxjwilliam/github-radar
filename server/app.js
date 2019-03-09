@@ -7,12 +7,11 @@ const bodyParser = require('body-parser');
 const debug = require('debug')('server:server');
 const http = require('http');
 
+const github = require('./routes/github');
+
 const db = require('./mongo')
 //import db from './mongo'
 db.connect();
-
-const index = require('./routes/index');
-const users = require('./routes/users');
 
 const app = express();
 app.set('port', process.env.PORT || '8000');
@@ -24,8 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../', 'client', 'build')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use('/api/github', github);
+app.use('/api/delegate/github/', github);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

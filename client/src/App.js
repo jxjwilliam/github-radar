@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
+import {Header, Footer, Navigator} from './components'
+import GHR  from './containers'
 import './App.css';
+
+const UserLoginRouters = () => (
+  <Switch>
+    <Route exact path="/" component={GHR.List}/>
+    <Route path="/list" component={GHR.List}/>
+    <Route path="/users/:email" exact strict component={GHR.Users}/>
+    <Route render={({match}) => <Redirect to="/"/>}/>
+  </Switch>
+)
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div className="App container">
+          <Header/>
+          <Navigator />
+          <UserLoginRouters/>
+          <Footer/>
+        </div>
+      </Router>
     );
   }
 }

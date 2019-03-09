@@ -2,11 +2,19 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://myname.github.io/myapp",
+  "homepage": "http://myname.github.io/myapp",
   "dependencies": {
+    "lodash.debounce": "^4.0.8",
     "react": "^16.8.4",
+    "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8"
+    "react-redux": "^6.0.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.8",
+    "redux": "^4.0.1",
+    "redux-form": "^8.1.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

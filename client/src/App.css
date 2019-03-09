@@ -31,3 +31,24 @@
     transform: rotate(360deg);
   }
 }
+
+.loader:before,
+.loader:after {
+  width: 2.28571429rem;
+  height: 2.28571429rem;
+  margin: 0em;
+}
+.link-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.link-button:hover,
+.link-button:focus {
+  text-decoration: none;
+}
