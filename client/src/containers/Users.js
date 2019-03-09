@@ -164,7 +164,7 @@ class Users extends Component {
                   onChange={this.handleChange}
                 >
                   <option value="select">-- location --</option>
-                  {['HK', 'GZ', 'XA', 'Other'].map(l => (
+                  {['HK', 'GZ', 'SZ', 'XA', 'Other'].map(l => (
                     <option value={l} key={l}>{l}</option>
                   ))}
                 </FormControl>
