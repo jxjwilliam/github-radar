@@ -27,11 +27,6 @@ const SortDesc = ({sort, name}) => (
   </button>
 )
 
-const AddUser = ({onOpen}) => (
-  <button className="btn btn-success" onClick={onOpen}>
-    <i className="fa fa-user-plus"></i>Add User
-  </button>
-)
 
 let FieldSearch = ({name, onSearch}) => (
   <div className="input-group">
@@ -277,10 +272,7 @@ class List extends Component {
         ? <div className="loader"/> : (
           <div className="container" style={{paddingTop: 48}}>
             <div className="row">
-              <div className="col-md-2">
-                <AddUser onOpen={this.open}/>
-              </div>
-              <div className="col-md-3">
+              <div className="col-md-5">
                 <Searchbox onChange={this.handleGlobalSearch}/>
               </div>
               <div className="col-md-2">

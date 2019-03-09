@@ -25,3 +25,12 @@ $ open http://locahost:3000
 # Production
 
 Production version will be deployed to cloud service, with https, cloud storage, caching etc.
+
+# TODO
+
+- virtualization
+
+# Reference
+
+- https://developer.github.com/v3/search/#search-repositories
+- https://developer.github.com/v3/
