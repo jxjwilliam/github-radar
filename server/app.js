@@ -8,23 +8,26 @@ const debug = require('debug')('server:server');
 const http = require('http');
 
 const github = require('./routes/github');
+const list = require("./routes/list")
 
 const db = require('./mongo')
-//import db from './mongo'
 db.connect();
 
 const app = express();
 app.set('port', process.env.PORT || '8000');
 
-app.use(favicon(path.join(__dirname, '..', 'client', 'build', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, '..', 'client', 'build', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../', 'client', 'build')));
+//app.use(express.static(path.join(__dirname, '../', 'client', 'build')));
 
 app.use('/api/github', github);
 app.use('/api/delegate/github/', github);
+
+app.use('/api/list', list)
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

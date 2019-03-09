@@ -1,90 +1,51 @@
-import orderBy from 'lodash/orderBy'
+import {combineReducers} from 'redux'
+import jwt_decode from 'jwt-decode'
+import {totalReducer, userListReducer} from './listReducer'
+import { reducer as formReducer } from 'redux-form'
 
-
-const githubReducer = (state, action) => {
-    let previousState = (state ? state : {user: "williamjxj",repos: [],isLoading:false});
-
-    switch (action.type) {
-        case "ADD_TWEETS":
-            return addTweets(previousState, action);
-            break;
-        case "USER_CHANGED":
-            return userChanged(previousState, action);
-            break;
-        case "IS_LOADING":
-            return isLoadingChanged(previousState, action);
-        default:
-            return previousState;
-    }
-}
-
-
-const totalReducer = (state = [], action) => {
+const loginReducer = (state = {}, action) => {
   switch (action.type) {
-    case 'FETCH_TOTAL':
-      return action.payload;
-    case 'FETCH_TOTAL_FAIL':
-      return action.error
+    case "LOGIN_ACTION_SUCCESS":
+      let token = action.payload;
+      let decoded = jwt_decode(token)
+      return {token, email: decoded.email, loggedIn: true}
+    case "LOGIN_ACTION_FAIL":
+      return {...action.payload, loggedIn: false}
+    case "LOGOUT_ACTION":
+      return {...action.payload, loggedIn: false}
     default:
       return state;
   }
 }
 
-const userListReducer = (state = [], action) => {
+export const signupReducer = (state = '', action) => {
   switch (action.type) {
-    case 'FETCH_USERS':
-    case 'LOAD_USERS':
-    case 'PREV_USERS':
-    case 'NEXT_USERS':
+    case "SIGNUP_ACTION_SUCCESS":
       return action.payload;
-    case 'FETCH_USERS_FAIL':
-    case 'LOAD_USERS_FAIL':
-    case 'PREV_USERS_FAIL':
-    case 'NEXT_USERS_FAIL':
-      return action.error;
-    case 'SORT_USERS':
-      return orderBy(state, [action.sortBy], [action.seq]);
-    case 'UPDATE_USER':
-      return state.map(s => s._id === action.payload._id ? action.payload : s);
-    //return [...state, action.payload]
-    case 'UPDATE_USER_FAIL':
-      return action.error;
-    case 'ADD_USER':
-      return [action.payload].concat(state)
-    case 'DELETE_USER':
-      console.log(action);
-      return state.filter(s => s._id !== action.payload.id);
-    case 'DELETE_USER_FAIL':
-      console.error(action.error)
-      return state;
-    case 'SEARCH_USERS':
+    case "SIGNUP_ACTION_FAIL":
       return action.payload;
-    case 'SEARCH_USERS_FAIL':
-      return action.error;
     default:
       return state;
   }
 }
 
-// fix bugs for 'team' array: forth and back search works.
-const searchFields = (state, field, keyword) => {
-  if ('team' === field.toLowerCase()) {
-    let teams = JSON.parse(JSON.stringify(state));
-    teams.forEach(t => {
-      let s = t.team.filter(st => {
-        return st.toLowerCase().indexOf(keyword) !== -1
-      })
-      t.team = s;
-    })
-    return teams.filter(t => t.team.length > 0);
+export const userReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'GET_USER_ACTION':
+      return action.payload
+    case 'UPDATE_USER_ACTION':
+      return action.payload;
+    default:
+      return state;
   }
-  return state.filter(ul => ul[field] && ul[field].toLowerCase().indexOf(keyword) !== -1)
 }
 
-export {
-  totalReducer,
-  userListReducer,
-  searchFields
-}
-
-export default githubReducer;
+export default combineReducers({
+  login: loginReducer,
+  signup: signupReducer,
+  user: userReducer,
+  total: totalReducer,
+  userList: userListReducer,
+  //to use redux-form, you have to pass formReducer under 'form' key
+  form: formReducer
+})

@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://myname.github.io/myapp",
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "lodash.debounce": "^4.0.8",
     "react": "^16.8.4",
     "react-bootstrap": "^1.0.0-beta.5",
