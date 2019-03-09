@@ -1,7 +1,7 @@
 const request = require('request');
 const router = require('express').Router();
 
-///api/delegate/github/:user
+// https://api.github.com/search/repositories?q=language:%s&sort=stars
 router.route('/:user')
   .get((req, res) => {
     const user = req.params.user;
