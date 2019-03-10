@@ -1,1 +1,1 @@
-web: NODE_ENV=production node ./app.js
+web: NODE_ENV=production cd ./server && npm install && node ./app.js
