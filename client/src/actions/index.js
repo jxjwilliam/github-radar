@@ -1,4 +1,4 @@
-const PREFIX_URL = '/api/list';
+
 const _common = (url, actionType) => (page = 1) => dispatch => {
   return fetch(url + page)
     .then(res => res.json())

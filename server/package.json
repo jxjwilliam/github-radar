@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "./node_modules/.bin/nodemon ./app.js",
-    "dev": "./node_modules/.bin/babel-node ./app.js"
+    "demo": "./node_modules/.bin/babel-node ./app.js"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
