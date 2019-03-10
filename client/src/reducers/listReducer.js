@@ -25,20 +25,20 @@ const userListReducer = (state = [], action) => {
       return action.error;
     case 'SORT_USERS':
       return orderBy(state, [action.sortBy], [action.seq]);
-    case 'UPDATE_USER':
-      return state.map(s => s._id === action.payload._id ? action.payload : s);
-    //return [...state, action.payload]
-    case 'UPDATE_USER_FAIL':
-      return action.error;
-    case 'ADD_USER':
-      return [action.payload].concat(state)
-    case 'DELETE_USER':
-      console.log(action);
-      return state.filter(s => s._id !== action.payload.id);
-    case 'DELETE_USER_FAIL':
-      console.error(action.error)
-      return state;
     case 'SEARCH_USERS':
+      if (Array.isArray(action.payload.items)) {
+        return action.payload.items.reduce((arr, item) => {
+          arr.push({
+            'created': item['created_at'],
+            'updated': item['updated_at'],
+            'name': item['name'],
+            'forks': item['forks'],
+            'stars': item['stargazers_count'],
+            'size': item['size']
+          });
+          return arr;
+        }, []);
+      }
       return action.payload;
     case 'SEARCH_USERS_FAIL':
       return action.error;

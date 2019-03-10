@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import {Header, Footer, Navigator} from './components'
 import GHR  from './containers'
@@ -7,8 +7,8 @@ import './App.css';
 const UserLoginRouters = () => (
   <Switch>
     <Route exact path="/" component={GHR.List}/>
-    <Route path="/list" component={GHR.List}/>
-    <Route path="/users/:email" exact strict component={GHR.Users}/>
+    <Route path="/about" render={(props) => <h1>About</h1>}/>
+    <Route path="/contact" render={() => <h1>Contact</h1>}/>
     <Route render={({match}) => <Redirect to="/"/>}/>
   </Switch>
 )

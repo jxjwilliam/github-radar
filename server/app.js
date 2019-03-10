@@ -23,10 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, '../', 'client', 'build')));
 
-app.use('/api/github', github);
-app.use('/api/delegate/github/', github);
-
-app.use('/api/list', list)
+app.use('/api/list', github);
+app.use('/api/github/', github);
 
 
 // catch 404 and forward to error handler

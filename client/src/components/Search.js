@@ -1,18 +1,12 @@
 import React from 'react';
-import debounce from 'lodash.debounce';
-import {Form} from 'react-bootstrap'
 import Languages from '../languages'
 
-//https://reactjs.org/docs/faq-functions.html#debounce
 class Searchbox extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.emitChangeDebounced = debounce(this.emitChange, 250);
-  }
-
-  componentWillUnmount() {
-    this.emitChangeDebounced.cancel();
+    this.state = {
+      search: ''
+    }
   }
 
   render() {
@@ -30,7 +24,11 @@ class Searchbox extends React.Component {
           }}
         />
         <div className="input-group-btn">
-          <button className="btn btn-warning" type="button">
+          <button
+            className="btn btn-warning"
+            type="button"
+            onClick={this.handleClick}
+          >
             <i className="fa fa-search-plus"></i>
           </button>
         </div>
@@ -51,6 +49,7 @@ class Searchbox extends React.Component {
     const val = e.target.value;
     if (val) {
       this.inputRef.value = e.target.value
+      this.setState({search: e.target.value})
     }
     else {
       this.inputRef.value = '';
@@ -58,11 +57,11 @@ class Searchbox extends React.Component {
   }
 
   handleChange(e) {
-    this.emitChangeDebounced(e.target.value);
+    //this.props.onChange(e.target.value)
   }
 
-  emitChange(value) {
-    this.props.onChange(value);
+  handleClick(e) {
+    console.log('click the search button', this.state);
   }
 }
 

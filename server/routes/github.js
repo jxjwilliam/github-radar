@@ -38,17 +38,19 @@ var data = [];
 //   })
 // }, []);
 
-router.route('/:user')
+router.route('/search/:keyword')
   .get((req, res) => {
-    const user = req.params.user;
+    var keyword = trim(req.params.keyword);
 
     const options = {
-      url: 'https://api.github.com/users/' + user + '/repos',
+      url: 'https://api.github.com/search/repositories?q=language:' + keyword + '&sort=stars',
       headers: {
         "content-type": "application/json",
         'User-Agent': 'request'
       }
     };
+
+    console.log('keyword ---', options.url);
 
     return request(options, (err, response, body) => {
       if (err) {

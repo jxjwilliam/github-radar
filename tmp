@@ -23,7 +23,7 @@ data['stargazers_url']
 
 data[items].reduce((arr, item) => {
   arr.push({
-	'crated': item['created_at'],
+	'created': item['created_at'],
 	'updated': item['updated_at'],
 	'name': item['name'],
 	'forks': item['forks'],

@@ -1,92 +1,25 @@
-export const loginAction = (body) => dispatch => {
-  return fetch("/api/login", {
-    method: "POST",
-    headers: {"Content-type": "application/json"},
-    body: JSON.stringify(body)
-  })
+const PREFIX_URL = '/api/list';
+const _common = (url, actionType) => (page = 1) => dispatch => {
+  return fetch(url + page)
     .then(res => res.json())
-    //{ "success":true, "message":"Enjoy your token!", "token":"eyJh..."}
-    .then(data => {
-      if (data.success && data.token) {
-        return dispatch({
-          type: "LOGIN_ACTION_SUCCESS",
-          payload: data.token
-        })
-      }
-      else {
-        return dispatch({
-          type: "LOGIN_ACTION_FAIL",
-          payload: data
-        })
-      }
-    })
-    .catch(e => console.error(e))
+    .then(
+      (data) => dispatch({type: actionType, payload: data}),
+      (error) => dispatch({type: actionType + '_FAIL', error}))
 }
 
-//{"success":false,"message":"Error: Account already exist"}
-export const signupAction = (body) => dispatch => {
-  return fetch("/api/signup", {
-    method: "POST",
-    headers: {"Content-type": "application/json"},
-    body: JSON.stringify(body)
-  })
+export const searchUsers = keyword => dispatch => {
+  return fetch(`/api/list/search/${keyword}`)
     .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        return dispatch({
-          type: "SIGNUP_ACTION_SUCCESS",
-          payload: data
-        })
-      }
-      else {
-        return dispatch({
-          type: "SIGNUP_ACTION_FAIL",
-          payload: data
-        })
-      }
-    })
-    .catch(e => console.error(e))
+    .then(
+      (data) => dispatch({type: 'SEARCH_USERS', payload: data}),
+      (error) => dispatch({type: 'SEARCH_USERS_FAIL', error}))
 }
 
-export const getUserAction = (email, token) => dispatch => {
-  return fetch("/api/users/" + email, {
-    method: 'GET',
-    headers: {
-      "Content-type": "application/json",
-      "Accept": "application/json",
-      "x-access-token": token
-    }
-  })
-    .then(res => res.json())
-    .then(data => {
-      dispatch({
-        type: "GET_USER_ACTION",
-        payload: data
-      })
-    })
-    .catch(e => console.error(e))
-}
-
-export const updateUserAction = (form_data, token) => dispatch => {
-  return fetch("/api/users", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-      "Accept": "application/json",
-      "x-access-token": token
-    },
-    body: JSON.stringify(form_data)
-  })
-    .then(res => res.json())
-    .then(data => {
-      return dispatch({
-        type: "UPDATE_USER_ACTION",
-        payload: form_data
-      })
-    })
-    .catch(e => console.error(e))
-}
-
+export const sortAction = (sortBy, seq) => ({
+  type: 'SORT_USERS',
+  sortBy: sortBy,
+  seq: seq
+})
 
 //1. Action creators
 export const addReposAction = jsonResult => ({
