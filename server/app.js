@@ -46,7 +46,7 @@ app.use(function (err, req, res, next) {
 
 const server = http.createServer(app);
 
-server.listen(app.get('port'));
+server.listen(process.env.PORT || app.get('port'));
 server.on('error', onError);
 server.on('listening', onListening);
 
