@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const DB_URI = process.env.DB_URI || "mongodb://localhost:27017/userlogin"
-// const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/github_radar';
+const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/github_radar';
 
 const db = {
   connect() {

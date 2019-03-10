@@ -16,12 +16,12 @@ db.connect();
 const app = express();
 app.set('port', process.env.PORT || '8000');
 
-app.use(favicon(path.join(__dirname, '..', 'client', 'build', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../', 'client', 'build')));
+//app.use(favicon(path.join(__dirname, '..', 'client', 'build', 'favicon.ico')));
+//app.use(express.static(path.join(__dirname, '../', 'client', 'build')));
 
 app.use('/api/list/', github);
 app.use('/api/github/', github);

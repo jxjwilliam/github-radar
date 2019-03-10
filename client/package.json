@@ -5,8 +5,6 @@
   "homepage": "http://myname.github.io/myapp",
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "jwt-decode": "^2.2.0",
-    "lodash.debounce": "^4.0.8",
     "react": "^16.8.4",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.8.4",

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const SECRET = "userloginjsonwebtoken";
-const User = require('../models/loginUser');
+const User = require('../models/github');
 
 router.get('/:email', function (req, res, next) {
   const email = req.params.email;

@@ -1,3 +1,4 @@
+```
 data['issues_url'],
 data['deployments_url'],
 data['stargazers_count'],
@@ -30,4 +31,6 @@ data[items].reduce((arr, item) => {
 	'stars': item['stargazers_count'],
 	'size': item['size']
   })
+  return arr;
 }, []);
+```

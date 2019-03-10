@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const User = require('../models/loginUser')
+const User = require('../models/github')
 const LIMIT = 6;
 
 //https://scotch.io/tutorials/using-mongoosejs-in-node-js-and-mongodb-applications
