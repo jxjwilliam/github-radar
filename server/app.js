@@ -8,7 +8,6 @@ const debug = require('debug')('server:server');
 const http = require('http');
 
 const github = require('./routes/github');
-const list = require("./routes/list")
 
 const db = require('./mongo')
 db.connect();
@@ -51,7 +50,6 @@ server.listen(app.get('port'));
 server.on('error', onError);
 server.on('listening', onListening);
 
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -75,7 +73,6 @@ function onError(error) {
       throw error;
   }
 }
-
 
 function onListening() {
   const addr = server.address();
