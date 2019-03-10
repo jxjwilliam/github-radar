@@ -8,7 +8,13 @@ const _common = (url, actionType) => (page = 1) => dispatch => {
 }
 
 export const searchUsers = keyword => dispatch => {
-  return fetch(`/api/list/search/${keyword}`)
+  return fetch(`/api/list/search/${keyword}`, {
+    method: 'GET',
+    headers: {
+      "Content-type": "application/json",
+      "Accept": "application/json",
+    }
+  })
     .then(res => res.json())
     .then(
       (data) => dispatch({type: 'SEARCH_USERS', payload: data}),
@@ -38,7 +44,7 @@ export const loadingChangedAction = isLoading => ({
 });
 
 export const loadReposAction = user => dispatch => {
-  const url = '/api/delegate/github/' + user;
+  const url = '/api/github/' + user;
   const headers = {
     "Content-type": "application/json",
     "Accept": "application/json",

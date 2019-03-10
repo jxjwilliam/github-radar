@@ -1,5 +1,5 @@
-const request = require('request');
 const router = require('express').Router();
+const request = require('request');
 
 // https://api.github.com/search/repositories?q=language:%s&sort=stars
 // https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc
@@ -41,6 +41,7 @@ var data = [];
 router.route('/search/:keyword')
   .get((req, res) => {
     var keyword = trim(req.params.keyword);
+    var keyword = "javascript";
 
     const options = {
       url: 'https://api.github.com/search/repositories?q=language:' + keyword + '&sort=stars',
@@ -49,8 +50,6 @@ router.route('/search/:keyword')
         'User-Agent': 'request'
       }
     };
-
-    console.log('keyword ---', options.url);
 
     return request(options, (err, response, body) => {
       if (err) {

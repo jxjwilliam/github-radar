@@ -56,12 +56,18 @@ class Searchbox extends React.Component {
     }
   }
 
-  handleChange(e) {
-    //this.props.onChange(e.target.value)
+  handleChange = e => {
+    this.setState({search: e.target.value})
   }
 
-  handleClick(e) {
-    console.log('click the search button', this.state);
+  handleClick = e => {
+    if(this.state.search) {
+      this.props.onChange(this.state.search)
+    }
+    else {
+      console.log('Please input searching creteria.');
+    }
+    e.preventDefault();
   }
 }
 

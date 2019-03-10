@@ -1,51 +1,57 @@
 import {combineReducers} from 'redux'
-import jwt_decode from 'jwt-decode'
-import {totalReducer, userListReducer} from './listReducer'
-import { reducer as formReducer } from 'redux-form'
+import orderBy from 'lodash/orderBy'
 
-const loginReducer = (state = {}, action) => {
+const userListReducer = (state = [], action) => {
   switch (action.type) {
-    case "LOGIN_ACTION_SUCCESS":
-      let token = action.payload;
-      let decoded = jwt_decode(token)
-      return {token, email: decoded.email, loggedIn: true}
-    case "LOGIN_ACTION_FAIL":
-      return {...action.payload, loggedIn: false}
-    case "LOGOUT_ACTION":
-      return {...action.payload, loggedIn: false}
+    case 'FETCH_USERS':
+    case 'LOAD_USERS':
+    case 'PREV_USERS':
+    case 'NEXT_USERS':
+      return action.payload;
+    case 'FETCH_USERS_FAIL':
+    case 'LOAD_USERS_FAIL':
+    case 'PREV_USERS_FAIL':
+    case 'NEXT_USERS_FAIL':
+      return action.error;
+    case 'SORT_USERS':
+      return orderBy(state, [action.sortBy], [action.seq]);
+    case 'SEARCH_USERS':
+      if (Array.isArray(action.payload.items)) {
+        return action.payload.items.reduce((arr, item) => {
+          arr.push({
+            'created': item['created_at'],
+            'updated': item['updated_at'],
+            'name': item['name'],
+            'forks': item['forks'],
+            'stars': item['stargazers_count'],
+            'size': item['size']
+          });
+          return arr;
+        }, []);
+      }
+      return action.payload;
+    case 'SEARCH_USERS_FAIL':
+      return action.error;
     default:
       return state;
   }
 }
 
-export const signupReducer = (state = '', action) => {
-  switch (action.type) {
-    case "SIGNUP_ACTION_SUCCESS":
-      return action.payload;
-    case "SIGNUP_ACTION_FAIL":
-      return action.payload;
-    default:
-      return state;
+// fix bugs for 'team' array: forth and back search works.
+export const searchFields = (state, field, keyword) => {
+  if ('team' === field.toLowerCase()) {
+    let teams = JSON.parse(JSON.stringify(state));
+    teams.forEach(t => {
+      let s = t.team.filter(st => {
+        return st.toLowerCase().indexOf(keyword) !== -1
+      })
+      t.team = s;
+    })
+    return teams.filter(t => t.team.length > 0);
   }
-}
-
-export const userReducer = (state = {}, action) => {
-  switch (action.type) {
-    case 'GET_USER_ACTION':
-      return action.payload
-    case 'UPDATE_USER_ACTION':
-      return action.payload;
-    default:
-      return state;
-  }
+  return state.filter(ul => ul[field] && ul[field].toLowerCase().indexOf(keyword) !== -1)
 }
 
 export default combineReducers({
-  login: loginReducer,
-  signup: signupReducer,
-  user: userReducer,
-  total: totalReducer,
-  userList: userListReducer,
-  //to use redux-form, you have to pass formReducer under 'form' key
-  form: formReducer
+  userList: userListReducer
 })
