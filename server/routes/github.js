@@ -4,16 +4,25 @@ const request = require('request');
 // https://api.github.com/search/repositories?q=language:%s&sort=stars
 // https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc
 
+const URL = "https://api.github.com/search/repositories?";
+const SUFFIX = '&sort=stars';
+const headers = {
+  "content-type": "application/json",
+  'User-Agent': 'request'
+}
+
+const working_urls = (keyword) => ({
+  'language': 'q=language:' + keyword + SUFFIX,
+  'all': URL + 'q=' + keyword
+})
+
 router.route('/search/:keyword')
   .get((req, res) => {
     var keyword = req.params.keyword;
 
     const options = {
-      url: 'https://api.github.com/search/repositories?q=language:' + keyword + '&sort=stars',
-      headers: {
-        "content-type": "application/json",
-        'User-Agent': 'request'
-      }
+      url: working_urls(keyword).all,
+      headers: headers
     };
 
     return request(options, (err, response, body) => {

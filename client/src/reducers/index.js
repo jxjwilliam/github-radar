@@ -19,12 +19,14 @@ const userListReducer = (state = [], action) => {
       if (Array.isArray(action.payload.items)) {
         return action.payload.items.reduce((arr, item) => {
           arr.push({
-            'created': item['created_at'],
-            'updated': item['updated_at'],
             'name': item['name'],
             'forks': item['forks'],
             'stars': item['stargazers_count'],
-            'size': item['size']
+            'size': item['size'],
+            'url': item['html_url'],
+            'desc': item['description'],
+            'created': item['created_at'],
+            'updated': item['updated_at'],
           });
           return arr;
         }, []);

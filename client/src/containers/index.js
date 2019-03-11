@@ -50,6 +50,16 @@ const Header = ({sort, onSearch}) => (
       <SortDesc sort={sort} name="name"/>
       <FieldSearch onSearch={onSearch} name="name"/>
     </th>
+    <th><label>URL</label>
+      <SortAsc sort={sort} name="url"/>
+      <SortDesc sort={sort} name="url"/>
+      <FieldSearch onSearch={onSearch} name="url"/>
+    </th>
+    <th><label>Description</label>
+      <SortAsc sort={sort} name="desc"/>
+      <SortDesc sort={sort} name="desc"/>
+      <FieldSearch onSearch={onSearch} name="desc"/>
+    </th>
     <th><label>Stars</label>
       <SortAsc sort={sort} name="stars"/>
       <SortDesc sort={sort} name="stars"/>
@@ -77,11 +87,13 @@ const Header = ({sort, onSearch}) => (
 )
 
 const Detail = ({idx, item, onEdit, onDelete}) => {
-  const {created, updated, name, forks, stars, size} = item;
+  const {created, updated, name, forks, stars, size, url, desc} = item;
   return (
     <tr>
       <td>{idx + 1}</td>
       <td>{name}</td>
+      <td>{url}</td>
+      <td>{desc}</td>
       <td>{stars}</td>
       <td>{forks}</td>
       <td>{size}</td>
