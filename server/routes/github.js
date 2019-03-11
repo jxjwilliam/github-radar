@@ -16,6 +16,7 @@ const working_urls = (keyword) => ({
   'all': URL + 'q=' + keyword
 })
 
+// /api/list/search/:keyword
 router.route('/search/:keyword')
   .get((req, res) => {
     var keyword = req.params.keyword;

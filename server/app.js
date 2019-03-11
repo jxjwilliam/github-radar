@@ -9,8 +9,8 @@ const http = require('http');
 
 const github = require('./routes/github');
 
-const db = require('./mongo')
-db.connect();
+//const db = require('./mongo')
+//db.connect();
 
 const app = express();
 app.set('port', process.env.PORT || '8000');
