@@ -7,17 +7,54 @@ import * as ListAction from '../../store/actions';
 import Searchbox from '../Search';
 import SearchPageNavigator from './SearchPageNavigator';
 
+let CanvasJS = require('../../assets/canvasjs.min');
+CanvasJS = CanvasJS.Chart ? CanvasJS : window.CanvasJS;
+
+
 export class Chart extends Component {
     state = {
       done: false
     };
+
+    chartRender = () => {
+        console.log( this.props.userList );
+        const dataPoints = this.props.userList.map((item, index) => {
+            return {
+                label: item.name,
+                y: ( index + 1) * 10
+            }
+        });
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title:{
+                text: "Popularity"              
+            },
+            data: [              
+            {
+                // Change type to "doughnut", "line", "splineArea", etc.
+                type: "column",
+                dataPoints
+            }
+            ]
+        });
+        chart.render();
+    }
 
     handleGlobalSearch = value => {
       this.props.searchUsers(value)
         .then(() => this.setState({ done: true }));
     }
 
+    componentDidMount() {
+        this.chartRender();
+    }
+
+    componentDidUpdate() {
+        this.chartRender();
+    }
+
     render () {
+
       return (
           <div className="container" style={ { paddingTop: 48 } }>
               <div className="row">
@@ -27,7 +64,9 @@ export class Chart extends Component {
                   </div>
               </div>
               <div className="row" style={ { paddingTop: 10 } }>
-                  CHART { this.props.userList.length }
+                <div id="chartContainer" 
+                    style={ { height: '300px', width: '100%' } }>
+                </div>
               </div>
           </div>
       );
