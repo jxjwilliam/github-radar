@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Header, Footer, Navigator } from './components';
-import List from './containers/SearchPage';
-import { Chart } from './containers/SearchPage';
+import List from './components/SearchPage/List';
+import Chart from './components/SearchPage//Chart';
 import './App.css';
 
 const UserLoginRouters = () => (
