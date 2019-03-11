@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as ListAction from '../actions';
-import { searchFields } from '../reducers';
+
+import * as ListAction from '../store/actions';
+import { searchFields } from '../store/reducers';
 import Searchbox from '../components/Search';
+import SearchPageNavigator from '../components/SearchPage/SearchPageNavigator';
 
 export const SortAsc = ({ sort, name }) => (
     <button
@@ -103,7 +105,25 @@ export const Detail = ({ idx, item, onEdit, onDelete }) => {
   );
 };
 
-export class List extends Component {
+export class Chart extends Component {
+  render () {
+    return (
+      <div className="container" style={ { paddingTop: 48 } }>
+            <div className="row">
+                <div className="col-md-10">
+                    <SearchPageNavigator />
+                    <Searchbox onChange={ this.handleGlobalSearch }/>
+                </div>
+            </div>
+            <div className="row" style={ { paddingTop: 10 } }>
+                CHART
+            </div>
+      </div>
+    )
+  }
+}
+
+class List extends Component {
   state = {
     total_page: 1,
     total_users: 0,
@@ -135,13 +155,14 @@ export class List extends Component {
       list = searchFields(userList, search_field, search_value) || [];
     } else {
       list = userList || [];
-      total_idx = userList.length;
+      total_idx = list.length;
     }
 
     return (
         <div className="container" style={ { paddingTop: 48 } }>
             <div className="row">
                 <div className="col-md-10">
+                    <SearchPageNavigator />
                     <Searchbox onChange={ this.handleGlobalSearch }/>
                 </div>
             </div>
@@ -164,7 +185,7 @@ export class List extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     userList: state.userList,
     total: state.total
@@ -172,8 +193,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  let actions = bindActionCreators(ListAction, dispatch);
-  return { ...actions, dispatch };
+  return bindActionCreators(ListAction, dispatch);
 };
 
 export default connect(
