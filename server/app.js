@@ -13,7 +13,8 @@ const github = require('./routes/github');
 //db.connect();
 
 const app = express();
-app.set('port', process.env.PORT || '8000');
+const port = process.env.PORT || '8000';
+app.set('port', port);
 
 //app.use(favicon(path.join(__dirname, '.', 'build', 'favicon.ico')));
 app.use(logger('dev'));
@@ -46,7 +47,7 @@ app.use(function (err, req, res, next) {
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || app.get('port'));
+server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 

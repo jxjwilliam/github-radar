@@ -1,5 +1,5 @@
-import {combineReducers} from 'redux'
-import orderBy from 'lodash/orderBy'
+import { combineReducers } from 'redux';
+import orderBy from 'lodash/orderBy';
 
 const userListReducer = (state = [], action) => {
   switch (action.type) {
@@ -26,7 +26,7 @@ const userListReducer = (state = [], action) => {
             'url': item['html_url'],
             'desc': item['description'],
             'created': item['created_at'],
-            'updated': item['updated_at'],
+            'updated': item['updated_at']
           });
           return arr;
         }, []);
@@ -37,23 +37,23 @@ const userListReducer = (state = [], action) => {
     default:
       return state;
   }
-}
+};
 
 // fix bugs for 'team' array: forth and back search works.
 export const searchFields = (state, field, keyword) => {
-  if ('team' === field.toLowerCase()) {
+  if (field.toLowerCase() === 'team') {
     let teams = JSON.parse(JSON.stringify(state));
     teams.forEach(t => {
       let s = t.team.filter(st => {
-        return st.toLowerCase().indexOf(keyword) !== -1
-      })
+        return st.toLowerCase().indexOf(keyword) !== -1;
+      });
       t.team = s;
-    })
+    });
     return teams.filter(t => t.team.length > 0);
   }
-  return state.filter(ul => ul[field] && ul[field].toLowerCase().indexOf(keyword) !== -1)
-}
+  return state.filter(ul => ul[field] && ul[field].toLowerCase().indexOf(keyword) !== -1);
+};
 
 export default combineReducers({
   userList: userListReducer
-})
+});

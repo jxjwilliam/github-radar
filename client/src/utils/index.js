@@ -1,18 +1,18 @@
-import React, {Fragment, Component} from 'react'
+import React, { Fragment, Component } from 'react';
 
 export const loadingDefer = ms => {
   const promise = new Promise((resolve, reject) => {
-    ms = ms || 2000; //default is 2 seconds
+    ms = ms || 2000; // default is 2 seconds
     setTimeout(() => resolve('user-login'), ms);
-  })
+  });
   return promise;
-}
+};
 
 export const isEmpty = prop => {
   return prop === null || prop === undefined ||
-    (prop.hasOwnProperty("length") && prop.length === 0) ||
-    (prop.constructor === Object && Object.keys(prop).length === 0)
-}
+    (prop.hasOwnProperty('length') && prop.length === 0) ||
+    (prop.constructor === Object && Object.keys(prop).length === 0);
+};
 
 export const areEqualShallow = (a, b) => {
   for (let key in a) {
@@ -26,16 +26,16 @@ export const areEqualShallow = (a, b) => {
     }
   }
   return true;
-}
+};
 
 export const Loading = loadingProp => WrappedComponent => {
   return class Loading extends Component {
-    render() {
+    render () {
       return isEmpty(this.props[loadingProp])
         ? <Fragment>
-          <div className="loader"/>
+            <div className="loader"/>
         </Fragment>
-        : <WrappedComponent {...this.props}/>;
+        : <WrappedComponent { ...this.props }/>;
     }
-  }
-}
+  };
+};
