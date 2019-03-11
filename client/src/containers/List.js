@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as ListAction from '../actions/';
-import { searchFields } from '../reducers/';
+import * as ListAction from '../actions';
+import { searchFields } from '../reducers';
 import Searchbox from '../components/Search';
 
-const SortAsc = ({ sort, name }) => (
+export const SortAsc = ({ sort, name }) => (
     <button
       type="button"
       title={ 'sort by ' + name }
@@ -14,7 +14,8 @@ const SortAsc = ({ sort, name }) => (
         <i className="fa fa-sort-up fa-lg"></i>
     </button>
 );
-const SortDesc = ({ sort, name }) => (
+
+export const SortDesc = ({ sort, name }) => (
     <button
       type="button"
       title={ 'sort by ' + name + ' desc' }
@@ -24,7 +25,7 @@ const SortDesc = ({ sort, name }) => (
     </button>
 );
 
-let FieldSearch = ({ name, onSearch }) => (
+export let FieldSearch = ({ name, onSearch }) => (
     <div className="input-group">
         <input
           type="search"
@@ -40,7 +41,7 @@ FieldSearch = connect(
   state => ({ userList: state.userList })
 )(FieldSearch);
 
-const Header = ({ sort, onSearch }) => (
+export const Header = ({ sort, onSearch }) => (
     <thead>
         <tr>
             <th scope="row">#</th>
@@ -85,7 +86,7 @@ const Header = ({ sort, onSearch }) => (
     </thead>
 );
 
-const Detail = ({ idx, item, onEdit, onDelete }) => {
+export const Detail = ({ idx, item, onEdit, onDelete }) => {
   const { created, updated, name, forks, stars, size, url, desc } = item;
   return (
       <tr>
@@ -102,7 +103,7 @@ const Detail = ({ idx, item, onEdit, onDelete }) => {
   );
 };
 
-class List extends Component {
+export class List extends Component {
   state = {
     total_page: 1,
     total_users: 0,
