@@ -1,10 +1,18 @@
-const router = require('express').Router();
 const request = require('request');
+const router = require('express').Router();
 
-// https://api.github.com/search/repositories?q=language:%s&sort=stars
-// https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc
+const SearchOptions = {
+  repositories: ['repositories'],
+  code: ['code'],
+  commits: ['commits', 'application/vnd.github.cloak-preview'],
+  issues: ['issues', 'application/vnd.github.symmetra-preview+json'],
+  users: ['users'],
+  labels: ['labels', 'application/vnd.github.symmetra-preview+json'],
+  topics: ['topics', 'application/vnd.github.mercy-preview+json'],
+  'text match metadata': ['labels', 'application/vnd.github.v3.text-match+json']
+};
 
-const URL = "https://api.github.com/search/repositories?";
+const URL = "https://api.github.com/search/";  //repositories?
 const SUFFIX = '&sort=stars';
 const headers = {
   "content-type": "application/json",
@@ -16,16 +24,36 @@ const working_urls = (keyword) => ({
   'all': URL + 'q=' + keyword
 })
 
-// /api/list/search/:keyword
-router.route('/search/:keyword')
+
+// https://api.github.com/search/repositories?q=language:%s&sort=stars
+// https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc
+// /api/list/search/:keyword, /api/github/v1/search/:keyword
+router.route(['/search/:keyword', '/search/:keyword/:criteria'])
   .get((req, res) => {
     var keyword = req.params.keyword;
+    var criteria = req.params.criteria.toLowerCase();
+
+    if(SearchOptions[criteria][1]) {
+      headers.Accept = SearchOptions[criteria][1];
+    }
+
+    if(/[,;]/.test(keyword)) {
+      //https://api.github.com/search/repositories?q=topic:ruby+topic:rails
+      keyword = 'topic:'+keyword.split(',').join('+topic:')
+    }
+    if(/\s+/.test(keyword)) {
+      keyword = keyword.replace(/\s+/g, '+');
+    }
+
+    url = URL + SearchOptions[criteria][0] + '?q=' + keyword;
 
     const options = {
-      url: working_urls(keyword).all,
+      url: url,
       headers: headers
     };
 
+    console.log('searching: ', url, headers);
+    
     return request(options, (err, response, body) => {
       if (err) {
         res.json({"error": err.toString()});

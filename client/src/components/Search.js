@@ -1,16 +1,19 @@
-import React from 'react';
-import Languages from '../languages'
+import React, {Fragment} from 'react';
+import {Languages} from '../config'
 
 class Searchbox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ''
+      search: '',
+      criteria: ''
     }
   }
 
   render() {
+    const soptions = ['Repositories', 'Code', 'Commits', 'Issues', 'Users', 'Labels', 'Topics', 'Text match metadata']
     return (
+      <Fragment>
       <div className="input-group">
         <input
           type="search"
@@ -33,18 +36,30 @@ class Searchbox extends React.Component {
           </button>
         </div>
 
+        <select onChange={this.handleOptionChange}>
+          <option value="">-- Search Criteria --</option>
+          {soptions.map((key, index) => (
+            <option key={`${index}-${key}`} value={key}>
+            {key}
+          </option>
+          ))}
+        </select>
+      
         <select onChange={this.handleSelectChange}>
-          <option value="">--Languages--</option>
+          <option value="">-- Languages --</option>
           {Languages.map((key, index) => (
             <option key={`${index}-${key}`} value={key}>
               {key}
             </option>
           ))}
         </select>
+
       </div>
+      </Fragment>
     );
   }
 
+  // select Language
   handleSelectChange = e => {
     const val = e.target.value;
     if (val) {
@@ -56,13 +71,17 @@ class Searchbox extends React.Component {
     }
   }
 
+  // select Search Criteria
+  handleOptionChange = e => this.setState({criteria: e.target.value});
+ 
+  // search input box
   handleChange = e => {
     this.setState({search: e.target.value})
   }
 
   handleClick = e => {
     if(this.state.search) {
-      this.props.onChange(this.state.search)
+      this.props.onChange(this.state);
     }
     else {
       console.log('Please input searching creteria.');

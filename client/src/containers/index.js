@@ -109,7 +109,7 @@ class List extends Component {
     total_users: 0,
     search_value: '',
     search_field: '',
-    done: false
+    done: true
   };
 
 
@@ -124,8 +124,11 @@ class List extends Component {
     e.preventDefault();
   }
 
-  handleGlobalSearch = value => {
-    this.props.searchUsers(value)
+  handleGlobalSearch = data => {
+    setTimeout(()=> {
+      this.setState({done:false});
+    },0);
+    this.props.searchUsers(data)
       .then(() => this.setState({done: true}));
   }
 
@@ -142,6 +145,9 @@ class List extends Component {
     }
 
     return (
+      !this.state.done
+        ? <div className="loader"/> : (
+
       <div className="container" style={{paddingTop: 48}}>
         <div className="row">
           <div className="col-md-10">
@@ -163,6 +169,8 @@ class List extends Component {
           </table>
         </div>
       </div>
+    
+      )
     )
   }
 }

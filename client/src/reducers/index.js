@@ -39,18 +39,7 @@ const userListReducer = (state = [], action) => {
   }
 }
 
-// fix bugs for 'team' array: forth and back search works.
 export const searchFields = (state, field, keyword) => {
-  if ('team' === field.toLowerCase()) {
-    let teams = JSON.parse(JSON.stringify(state));
-    teams.forEach(t => {
-      let s = t.team.filter(st => {
-        return st.toLowerCase().indexOf(keyword) !== -1
-      })
-      t.team = s;
-    })
-    return teams.filter(t => t.team.length > 0);
-  }
   return state.filter(ul => ul[field] && ul[field].toLowerCase().indexOf(keyword) !== -1)
 }
 

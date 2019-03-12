@@ -1,5 +1,5 @@
 // this part is better to be dynamically acquired.
-const Languages = [
+export const Languages = [
   "JavaScript",
   "React",
   "Angular",
@@ -24,5 +24,3 @@ const Languages = [
   "Go",
   "MATLAB",
 ]
-
-export default Languages;

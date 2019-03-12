@@ -13,7 +13,7 @@ const github = require('./routes/github');
 //db.connect();
 
 const app = express();
-app.set('port', process.env.PORT || '8000');
+app.set('port', process.env.PORT || 8000);
 
 //app.use(favicon(path.join(__dirname, '.', 'build', 'favicon.ico')));
 app.use(logger('dev'));
@@ -23,7 +23,7 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, './', 'build')));
 
 app.use('/api/list/', github);
-app.use('/api/github/', github);
+app.use('/api/github/v1/', github);
 
 
 // catch 404 and forward to error handler
@@ -46,7 +46,7 @@ app.use(function (err, req, res, next) {
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || app.get('port'));
+server.listen(8000);
 server.on('error', onError);
 server.on('listening', onListening);
 
