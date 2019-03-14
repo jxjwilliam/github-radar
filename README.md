@@ -26,8 +26,9 @@ $ open http://locahost:3000
 
 Production version will be deployed to cloud service, with https, cloud storage, caching etc.
 
+> http://ec2-54-222-208-228.cn-north-1.compute.amazonaws.com.cn/
 > https://dry-cliffs-21510.herokuapp.com/
-
+> http://ec2-54-222-208-228.cn-north-1.compute.amazonaws.com.cn:5500/index.html
 
 # TODO
 
