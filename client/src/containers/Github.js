@@ -125,9 +125,9 @@ class Github extends Component {
   }
 
   handleGlobalSearch = data => {
-    setTimeout(()=> {
-      this.setState({done:false});
-    },0);
+    setTimeout(() => {
+      this.setState({done: false});
+    }, 0);
     this.props.searchGithub(data)
       .then(() => this.setState({done: true}));
   }
@@ -145,32 +145,29 @@ class Github extends Component {
     }
 
     return (
-      !this.state.done
-        ? <div className="loader"/> : (
-
-          <div className="container" style={{paddingTop: 48}}>
-            <div className="row">
-              <div className="col-md-10">
-                <Searchbox onChange={this.handleGlobalSearch}/>
-              </div>
-            </div>
-            <div className="row" style={{paddingTop: 10}}>
-              <table className="table table-bordered">
-                <THeader sort={sortGithub} onSearch={this.handleSearch}/>
-                <tbody>
-                {Array.isArray(list) && list.map((item, i) => (
-                  <Detail
-                    key={i + total_idx}
-                    item={item}
-                    idx={i}
-                  />
-                ))}
-                </tbody>
-              </table>
-            </div>
+      <div className="container" style={{paddingTop: 48}}>
+        <div className="row">
+          <div className="col-md-10">
+            <Searchbox onChange={this.handleGlobalSearch}/>
           </div>
-
-        )
+        </div>
+        {!this.state.done ? <div className="loader"/> : (
+        <div className="row" style={{paddingTop: 10}}>
+          <table className="table table-bordered">
+            <THeader sort={sortGithub} onSearch={this.handleSearch}/>
+            <tbody>
+            {Array.isArray(list) && list.map((item, i) => (
+              <Detail
+                key={i + total_idx}
+                item={item}
+                idx={i}
+              />
+            ))}
+            </tbody>
+          </table>
+        </div>
+        )}
+      </div>
     )
   }
 }

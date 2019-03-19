@@ -125,9 +125,9 @@ class Stackoverflow extends Component {
   }
 
   handleGlobalSearch = data => {
-    setTimeout(()=> {
-      this.setState({done:false});
-    },0);
+    setTimeout(() => {
+      this.setState({done: false});
+    }, 0);
     this.props.searchSOF(data)
       .then(() => this.setState({done: true}));
   }
@@ -145,15 +145,13 @@ class Stackoverflow extends Component {
     }
 
     return (
-      !this.state.done
-        ? <div className="loader"/> : (
-
-          <div className="container" style={{paddingTop: 48}}>
-            <div className="row">
-              <div className="col-md-10">
-                <Searchbox onChange={this.handleGlobalSearch}/>
-              </div>
-            </div>
+      <div className="container" style={{paddingTop: 48}}>
+        <div className="row">
+          <div className="col-md-10">
+            <Searchbox onChange={this.handleGlobalSearch}/>
+          </div>
+        </div>
+        { !this.state.done ? <div className="loader"/> : (
             <div className="row" style={{paddingTop: 10}}>
               <table className="table table-bordered">
                 <THeader sort={sortSOF} onSearch={this.handleSearch}/>
@@ -168,9 +166,8 @@ class Stackoverflow extends Component {
                 </tbody>
               </table>
             </div>
-          </div>
-
-        )
+          )}
+      </div>
     )
   }
 }
