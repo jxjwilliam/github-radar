@@ -23,4 +23,19 @@ export const Languages = [
   "Perl",
   "Go",
   "MATLAB",
-]
+];
+
+export const GithubSearch = [
+  'Repositories',
+  'Code',
+  'Commits',
+  'Issues',
+  'Users',
+  'Labels',
+  'Topics',
+  'Text match metadata'
+];
+
+export const StackoverflowSearch = []
+
+export const MsdnSearch = []

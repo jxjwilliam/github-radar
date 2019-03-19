@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import {Header, Footer, Navigator} from './components'
+import {Footer, Navigator} from './components'
+import Header from './containers/Header'
 import Repository  from './containers'
 import './App.css';
 
@@ -21,7 +22,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App container">
-          <Header/>
+          <Header title="GitHub"/>
           <Navigator />
           <UserLoginRouters/>
           <Footer/>

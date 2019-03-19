@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {searchAction, headerAction} from '../actions/'
 import {searchMSDN, sortMSDN} from '../actions/MsdnAction'
 import {searchFields} from '../reducers/'
-import Searchbox from '../components/Search'
+import Searchbox from './Search'
 
 const SortAsc = ({sort, name}) => (
   <button
@@ -105,13 +106,19 @@ const Detail = ({idx, item, onEdit, onDelete}) => {
 
 class Msdn extends Component {
   state = {
-    total_page: 1,
-    total_users: 0,
     search_value: '',
     search_field: '',
-    done: true
+    done: true,
+    title: 'MSDN'
   };
 
+  componentDidMount() {
+    this.props.headerAction(this.state.title);
+    this.props.searchAction({
+      placeholder: this.state.title,
+      selectors: 2
+    });
+  }
 
   handleSearch = (e, field) => {
     let keyword = e.target.value;
@@ -175,12 +182,17 @@ class Msdn extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     msdnList: state.msdnList,
-    total: state.total,
+    search: state.searchPlaceholder
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  let actions = bindActionCreators({searchMSDN, sortMSDN}, dispatch);
+  let actions = bindActionCreators({
+    searchMSDN,
+    sortMSDN,
+    searchAction,
+    headerAction
+  }, dispatch);
   return {...actions, dispatch};
 }
 

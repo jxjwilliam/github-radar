@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {searchAction, headerAction} from '../actions'
 import {searchSOF, sortSOF} from '../actions/StackoverflowAction'
 import {searchFields} from '../reducers/'
-import Searchbox from '../components/Search'
+import Searchbox from './Search'
 
 const SortAsc = ({sort, name}) => (
   <button
@@ -105,13 +106,19 @@ const Detail = ({idx, item, onEdit, onDelete}) => {
 
 class Stackoverflow extends Component {
   state = {
-    total_page: 1,
-    total_users: 0,
     search_value: '',
     search_field: '',
-    done: true
+    done: true,
+    title: 'Stackoverflow'
   };
 
+  componentDidMount() {
+    this.props.headerAction(this.state.title);
+    this.props.searchAction({
+      placeholder: this.state.title,
+      selectors: 3
+    });
+  }
 
   handleSearch = (e, field) => {
     let keyword = e.target.value;
@@ -175,12 +182,17 @@ class Stackoverflow extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     sofList: state.sofList,
-    total: state.total,
+    search: state.searchPlaceholder
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  let actions = bindActionCreators({searchSOF, sortSOF}, dispatch);
+  let actions = bindActionCreators({
+    searchSOF,
+    sortSOF,
+    searchAction,
+    headerAction
+  }, dispatch);
   return {...actions, dispatch};
 }
 
