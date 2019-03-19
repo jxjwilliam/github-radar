@@ -8,6 +8,8 @@ const debug = require('debug')('server:server');
 const http = require('http');
 
 const github = require('./routes/github');
+const stackoverflow = require('./routes/stackoverflow');
+const msdn = require('./routes/msdn');
 
 //const db = require('./mongo')
 //db.connect();
@@ -22,8 +24,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, './', 'build')));
 
-app.use('/api/list/', github);
 app.use('/api/github/v1/', github);
+app.use('/api/stackoverflow/v1/', stackoverflow);
+app.use('/api/msdn/v1/', msdn)
 
 
 // catch 404 and forward to error handler
@@ -47,39 +50,5 @@ app.use(function (err, req, res, next) {
 const server = http.createServer(app);
 
 server.listen(8000);
-server.on('error', onError);
-server.on('listening', onListening);
-
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
 
 module.exports = app;

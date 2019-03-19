@@ -1,8 +1,7 @@
-//api: /api/list/v1/search/${keyword}/${searchcriteria}
-export const searchUsers = data => dispatch => {
+export const searchMSDN = data => dispatch => {
   var keyword = data.search.trim();
   var criteria = data.criteria ? data.criteria : 'repositories';
-  var url = "/api/github/v1/search/" + keyword + '/' + criteria;
+  var url = "/api/msdn/v1/search/" + keyword + '/' + criteria;
 
   var headers = {
     "Content-type": "application/json",
@@ -10,23 +9,23 @@ export const searchUsers = data => dispatch => {
   }
 
   return fetch(url, {
-      method: 'GET',
-      headers: headers
-    })
+    method: 'GET',
+    headers: headers
+  })
     .then(res => res.json())
     .then(
       (data) => dispatch({
-        type: 'SEARCH_USERS',
+        type: 'SEARCH_MSDN',
         payload: data
       }),
       (error) => dispatch({
-        type: 'SEARCH_USERS_FAIL',
+        type: 'SEARCH_MSDN_FAIL',
         error
       }))
 }
 
-export const sortAction = (sortBy, seq) => ({
-  type: 'SORT_USERS',
+export const sortMSDN = (sortBy, seq) => ({
+  type: 'SORT_MSDN',
   sortBy: sortBy,
   seq: seq
 })
