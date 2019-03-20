@@ -127,7 +127,6 @@ class Github extends Component {
               <label className="alert alert-danger">total <code>{this.state.total}</code></label> : null}
           </div>
         </div>
-
         {!this.state.done ? <div className="loader"/> : (
             <div className="row" style={{paddingTop: 10}}>
               <table className="table table-bordered">

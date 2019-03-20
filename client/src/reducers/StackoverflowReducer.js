@@ -8,14 +8,14 @@ const stackoverflowReducer = (state = [], action) => {
       if (Array.isArray(action.payload.items)) {
         return action.payload.items.reduce((arr, item) => {
           arr.push({
-            'name': item['name'],
-            'forks': item['forks'],
-            'stars': item['stargazers_count'],
-            'size': item['size'],
-            'url': item['html_url'],
-            'desc': item['description'],
-            'created': item['created_at'],
-            'updated': item['updated_at'],
+            'tags': item['tags'].join(','),
+            'score': item['score'],
+            'views': item['view_count'],
+            'answers': item['answer_count'],
+            'url': item['link'],
+            'desc': item['title'],
+            'created': new Date(item['creation_data']).toLocaleDateString("en-US"),
+            'updated': new Date(item['last_edit_date']).toLocaleDateString("en-US")
           });
           return arr;
         }, []);

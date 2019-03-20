@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 app.use('/api/github/v1/', github);
 app.use('/api/stackoverflow/v1/', stackoverflow);
-app.use('/api/msdn/v1/', msdn)
+app.use('/api/msdn/v1/', msdn);
 
 
 // catch 404 and forward to error handler

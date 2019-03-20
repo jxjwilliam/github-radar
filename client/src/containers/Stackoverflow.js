@@ -7,7 +7,15 @@ import {searchFields} from '../reducers/'
 import Searchbox from './Search'
 import {SortAsc, SortDesc, FieldSearch} from '../utils'
 
-const HFields = [];
+const HFields = [
+  ['Tags', 'tags'],
+  ['URL', 'url'],
+  ['Views', 'views', 'N'],
+  ['Answers', 'answers', 'N'],
+  ['Score', 'score', 'N'],
+  ['Created', 'created'],
+  ['Updated', 'updated']
+];
 
 const THeader = ({sort, onSearch}) => {
   let hlist = HFields.map((hf, inx) => (
@@ -15,7 +23,7 @@ const THeader = ({sort, onSearch}) => {
       <label>{hf[0]}</label>
       <SortAsc sort={sort} name={hf[1]}/>
       <SortDesc sort={sort} name={hf[1]}/>
-      <FieldSearch onSearch={onSearch} name={hf[1]}/>
+      {hf[2] ? null : <FieldSearch onSearch={onSearch} name={hf[1]}/>}
     </th>
   ))
   return (
@@ -29,16 +37,15 @@ const THeader = ({sort, onSearch}) => {
 }
 
 const Detail = ({idx, item, onEdit, onDelete}) => {
-  const {created, updated, name, forks, stars, size, url, desc} = item;
+  const {created, updated, tags, desc, score, views, answers, url} = item;
   return (
     <tr>
       <td>{idx + 1}</td>
-      <td>{name}</td>
-      <td>{url}</td>
-      <td>{desc}</td>
-      <td>{stars}</td>
-      <td>{forks}</td>
-      <td>{size}</td>
+      <td>{tags}</td>
+      <td><a href={url} title={desc}>{desc}</a></td>
+      <td>{views}</td>
+      <td>{answers}</td>
+      <td>{score}</td>
       <td>{created}</td>
       <td>{updated}</td>
     </tr>
@@ -50,14 +57,15 @@ class Stackoverflow extends Component {
     search_value: '',
     search_field: '',
     done: true,
-    title: 'Stackoverflow'
+    title: 'Stackoverflow',
+    total: 0
   };
 
   componentDidMount() {
     this.props.headerAction(this.state.title);
     this.props.searchAction({
       placeholder: this.state.title,
-      selectors: 3
+      selectors: 2
     });
   }
 
@@ -77,7 +85,10 @@ class Stackoverflow extends Component {
       this.setState({done: false});
     }, 0);
     this.props.searchSOF(data)
-      .then(() => this.setState({done: true}));
+      .then(ret => this.setState({
+        total: ret.payload.quota_max + ret.payload.quota_remaining,
+        done: true
+      }));
   }
 
   render() {
@@ -97,6 +108,10 @@ class Stackoverflow extends Component {
         <div className="row">
           <div className="col-md-10">
             <Searchbox onChange={this.handleGlobalSearch}/>
+          </div>
+          <div className="col-md-2">
+            {this.state.total ?
+              <label className="alert alert-danger">total <code>{this.state.total}</code></label> : null}
           </div>
         </div>
         { !this.state.done ? <div className="loader"/> : (

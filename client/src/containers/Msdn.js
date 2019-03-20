@@ -15,7 +15,7 @@ const THeader = ({sort, onSearch}) => {
       <label>{hf[0]}</label>
       <SortAsc sort={sort} name={hf[1]}/>
       <SortDesc sort={sort} name={hf[1]}/>
-      <FieldSearch onSearch={onSearch} name={hf[1]}/>
+      {hf[2] ? null : <FieldSearch onSearch={onSearch} name={hf[1]}/>}
     </th>
   ))
   return (
@@ -58,7 +58,7 @@ class Msdn extends Component {
     this.props.headerAction(this.state.title);
     this.props.searchAction({
       placeholder: this.state.title,
-      selectors: 2
+      selectors: 3
     });
   }
 
@@ -78,7 +78,10 @@ class Msdn extends Component {
       this.setState({done: false});
     }, 0);
     this.props.searchMSDN(data)
-      .then(() => this.setState({done: true}));
+      .then(ret => this.setState({
+        total: 0,
+        done: true
+      }));
   }
 
   render() {
@@ -98,6 +101,10 @@ class Msdn extends Component {
         <div className="row">
           <div className="col-md-10">
             <Searchbox onChange={this.handleGlobalSearch}/>
+          </div>
+          <div className="col-md-2">
+            {this.state.total ?
+              <label className="alert alert-danger">total <code>{this.state.total}</code></label> : null}
           </div>
         </div>
         {!this.state.done ? <div className="loader"/> : (

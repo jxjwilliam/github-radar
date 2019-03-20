@@ -33,15 +33,15 @@ router.route(['/search/:keyword', '/search/:keyword/:criteria'])
     var keyword = req.params.keyword;
     var criteria = req.params.criteria.toLowerCase();
 
-    if(SearchOptions[criteria][1]) {
+    if (SearchOptions[criteria][1]) {
       headers.Accept = SearchOptions[criteria][1];
     }
 
-    if(/[,;]/.test(keyword)) {
+    if (/[,;]/.test(keyword)) {
       //https://api.github.com/search/repositories?q=topic:ruby+topic:rails
-      keyword = 'topic:'+keyword.split(',').join('+topic:')
+      keyword = 'topic:' + keyword.split(',').join('+topic:')
     }
-    if(/\s+/.test(keyword)) {
+    if (/\s+/.test(keyword)) {
       keyword = keyword.replace(/\s+/g, '+');
     }
 
