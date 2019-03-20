@@ -52,8 +52,8 @@ router.route(['/search/:keyword', '/search/:keyword/:criteria'])
       headers: headers
     };
 
-    console.log('searching: ', url, headers);
-    
+    console.log('searching: ', url);
+
     return request(options, (err, response, body) => {
       if (err) {
         res.json({"error": err.toString()});

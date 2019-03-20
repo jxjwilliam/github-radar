@@ -5,87 +5,28 @@ import {searchAction, headerAction} from '../actions'
 import {searchSOF, sortSOF} from '../actions/StackoverflowAction'
 import {searchFields} from '../reducers/'
 import Searchbox from './Search'
+import {SortAsc, SortDesc, FieldSearch} from '../utils'
 
-const SortAsc = ({sort, name}) => (
-  <button
-    type="button"
-    title={'sort by ' + name}
-    className="link-button"
-    onClick={() => sort(name, 'asc')}>
-    <i className="fa fa-sort-up fa-lg"></i>
-  </button>
-)
-const SortDesc = ({sort, name}) => (
-  <button
-    type="button"
-    title={'sort by ' + name + ' desc'}
-    className="link-button"
-    onClick={() => sort(name, 'desc')}>
-    <i className="fa fa-sort-down fa-lg"></i>
-  </button>
-)
+const HFields = [];
 
-
-let FieldSearch = ({name, onSearch}) => (
-  <div className="input-group">
-    <input
-      type="search"
-      className="form-control"
-      placeholder={name}
-      name="field_search"
-      title="search in this page"
-      onChange={e => onSearch(e, name)}
-    />
-  </div>
-)
-FieldSearch = connect(
-  state => ({sofList: state.sofList})
-)(FieldSearch)
-
-const THeader = ({sort, onSearch}) => (
-  <thead>
-  <tr>
-    <th scope="row">#</th>
-    <th><label>Name</label>
-      <SortAsc sort={sort} name="name"/>
-      <SortDesc sort={sort} name="name"/>
-      <FieldSearch onSearch={onSearch} name="name"/>
+const THeader = ({sort, onSearch}) => {
+  let hlist = HFields.map((hf, inx) => (
+    <th key={`hf-${inx}`}>
+      <label>{hf[0]}</label>
+      <SortAsc sort={sort} name={hf[1]}/>
+      <SortDesc sort={sort} name={hf[1]}/>
+      <FieldSearch onSearch={onSearch} name={hf[1]}/>
     </th>
-    <th><label>URL</label>
-      <SortAsc sort={sort} name="url"/>
-      <SortDesc sort={sort} name="url"/>
-      <FieldSearch onSearch={onSearch} name="url"/>
-    </th>
-    <th><label>Description</label>
-      <SortAsc sort={sort} name="desc"/>
-      <SortDesc sort={sort} name="desc"/>
-      <FieldSearch onSearch={onSearch} name="desc"/>
-    </th>
-    <th><label>Stars</label>
-      <SortAsc sort={sort} name="stars"/>
-      <SortDesc sort={sort} name="stars"/>
-    </th>
-    <th><label>Forks</label>
-      <SortAsc sort={sort} name="forks"/>
-      <SortDesc sort={sort} name="forks"/>
-    </th>
-    <th><label>Size</label>
-      <SortAsc sort={sort} name="size"/>
-      <SortDesc sort={sort} name="size"/>
-    </th>
-    <th><label>Created</label>
-      <SortAsc sort={sort} name="created"/>
-      <SortDesc sort={sort} name="created"/>
-      <FieldSearch onSearch={onSearch} name="created"/>
-    </th>
-    <th><label>Updated</label>
-      <SortAsc sort={sort} name="updated"/>
-      <SortDesc sort={sort} name="updated"/>
-      <FieldSearch onSearch={onSearch} name="updated"/>
-    </th>
-  </tr>
-  </thead>
-)
+  ))
+  return (
+    <thead>
+    <tr>
+      <th scope="row">#</th>
+      {hlist}
+    </tr>
+    </thead>
+  )
+}
 
 const Detail = ({idx, item, onEdit, onDelete}) => {
   const {created, updated, name, forks, stars, size, url, desc} = item;
@@ -182,7 +123,7 @@ class Stackoverflow extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     sofList: state.sofList,
-    search: state.searchPlaceholder
+    search: state.search
   }
 }
 

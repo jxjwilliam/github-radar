@@ -5,101 +5,61 @@ import {searchAction, headerAction} from '../actions'
 import {searchGithub, sortGithub} from '../actions/GithubAction'
 import {searchFields} from '../reducers/'
 import Searchbox from './Search'
+import {SortAsc, SortDesc, FieldSearch} from '../utils'
 
-const SortAsc = ({sort, name}) => (
-  <button
-    type="button"
-    title={'sort by ' + name}
-    className="link-button"
-    onClick={() => sort(name, 'asc')}>
-    <i className="fa fa-sort-up fa-lg"></i>
-  </button>
-)
-const SortDesc = ({sort, name}) => (
-  <button
-    type="button"
-    title={'sort by ' + name + ' desc'}
-    className="link-button"
-    onClick={() => sort(name, 'desc')}>
-    <i className="fa fa-sort-down fa-lg"></i>
-  </button>
-)
+// number-field don't need `FieldSearch`. e.g. Forks, Stars.
+const HFields = [
+  ['Name', 'name'],
+  ['URL', 'url'],
+  ['Description', 'desc'],
+  ['Language', 'language'],
+  ['Stars', 'stars', 'N'],
+  ['Forks', 'forks', 'N'],
+  ['Issues', 'issues', 'N'],
+  ['Watchers', 'watchers', 'N'],
+  ['Size', 'size', 'N'],
+  ['Created', 'created'],
+  ['Updated', 'updated']
+]
 
+const THeader = ({sort, onSearch}) => {
+  let hlist = HFields.map((hf, inx) => (
+    <th key={`hf-${inx}`}>
+      <label>{hf[0]}</label>
+      <SortAsc sort={sort} name={hf[1]}/>
+      <SortDesc sort={sort} name={hf[1]}/>
+      {hf[2] ? null : <FieldSearch onSearch={onSearch} name={hf[1]}/>}
+    </th>
+  ));
+  return (
+    <thead>
+    <tr>
+      <th scope="row">#</th>
+      {hlist}
+    </tr>
+    </thead>
+  )
+}
 
-let FieldSearch = ({name, onSearch}) => (
-  <div className="input-group">
-    <input
-      type="search"
-      className="form-control"
-      placeholder={name}
-      name="field_search"
-      title="search in this page"
-      onChange={e => onSearch(e, name)}
-    />
-  </div>
-)
-FieldSearch = connect(
-  state => ({userList: state.userList})
-)(FieldSearch)
-
-const THeader = ({sort, onSearch}) => (
-  <thead>
-  <tr>
-    <th scope="row">#</th>
-    <th><label>Name</label>
-      <SortAsc sort={sort} name="name"/>
-      <SortDesc sort={sort} name="name"/>
-      <FieldSearch onSearch={onSearch} name="name"/>
-    </th>
-    <th><label>URL</label>
-      <SortAsc sort={sort} name="url"/>
-      <SortDesc sort={sort} name="url"/>
-      <FieldSearch onSearch={onSearch} name="url"/>
-    </th>
-    <th><label>Description</label>
-      <SortAsc sort={sort} name="desc"/>
-      <SortDesc sort={sort} name="desc"/>
-      <FieldSearch onSearch={onSearch} name="desc"/>
-    </th>
-    <th><label>Stars</label>
-      <SortAsc sort={sort} name="stars"/>
-      <SortDesc sort={sort} name="stars"/>
-    </th>
-    <th><label>Forks</label>
-      <SortAsc sort={sort} name="forks"/>
-      <SortDesc sort={sort} name="forks"/>
-    </th>
-    <th><label>Size</label>
-      <SortAsc sort={sort} name="size"/>
-      <SortDesc sort={sort} name="size"/>
-    </th>
-    <th><label>Created</label>
-      <SortAsc sort={sort} name="created"/>
-      <SortDesc sort={sort} name="created"/>
-      <FieldSearch onSearch={onSearch} name="created"/>
-    </th>
-    <th><label>Updated</label>
-      <SortAsc sort={sort} name="updated"/>
-      <SortDesc sort={sort} name="updated"/>
-      <FieldSearch onSearch={onSearch} name="updated"/>
-    </th>
-  </tr>
-  </thead>
-)
-
-const Detail = ({idx, item, onEdit, onDelete}) => {
-  const {created, updated, name, forks, stars, size, url, desc} = item;
+const Detail = ({idx, item}) => {
+  const {
+    created, updated, name, forks, stars, size, url, desc,
+    fname, watchers, issues, language
+  } = item;
   return (
     <tr>
       <td>{idx + 1}</td>
       <td>{name}</td>
-      <td>{url}</td>
+      <td><a href={url}>{fname}</a></td>
       <td>{desc}</td>
+      <td>{language}</td>
       <td>{stars}</td>
       <td>{forks}</td>
+      <td>{issues}</td>
+      <td>{watchers}</td>
       <td>{size}</td>
-      <td>{created}</td>
-      <td>{updated}</td>
+      <td>{created.replace(/[A-Z].+$/, '')}</td>
+      <td>{updated.replace(/[A-Z].+$/, '')}</td>
     </tr>
   )
 }
@@ -109,7 +69,8 @@ class Github extends Component {
     search_value: '',
     search_field: '',
     done: true,
-    title: 'Github'
+    title: 'Github',
+    total: 0
   };
 
   componentDidMount() {
@@ -126,7 +87,7 @@ class Github extends Component {
       this.setState({search_value: keyword.trim().toLowerCase(), search_field: field})
     }
     else {
-      this.setState({search_value: '', search_field: ''})
+      this.setState({search_value: '', search_field: field})
     }
     e.preventDefault();
   }
@@ -135,8 +96,12 @@ class Github extends Component {
     setTimeout(() => {
       this.setState({done: false});
     }, 0);
+
     this.props.searchGithub(data)
-      .then(() => this.setState({done: true}));
+      .then(ret => this.setState({
+        total: ret.payload.total_count,
+        done: true
+      }));
   }
 
   render() {
@@ -157,32 +122,37 @@ class Github extends Component {
           <div className="col-md-10">
             <Searchbox onChange={this.handleGlobalSearch}/>
           </div>
+          <div className="col-md-2">
+            {this.state.total ?
+              <label className="alert alert-danger">total <code>{this.state.total}</code></label> : null}
+          </div>
         </div>
+
         {!this.state.done ? <div className="loader"/> : (
-        <div className="row" style={{paddingTop: 10}}>
-          <table className="table table-bordered">
-            <THeader sort={sortGithub} onSearch={this.handleSearch}/>
-            <tbody>
-            {Array.isArray(list) && list.map((item, i) => (
-              <Detail
-                key={i + total_idx}
-                item={item}
-                idx={i}
-              />
-            ))}
-            </tbody>
-          </table>
-        </div>
-        )}
+            <div className="row" style={{paddingTop: 10}}>
+              <table className="table table-bordered">
+                <THeader sort={sortGithub} onSearch={this.handleSearch}/>
+                <tbody>
+                {Array.isArray(list) && list.map((item, i) => (
+                  <Detail
+                    key={i + total_idx}
+                    item={item}
+                    idx={i}
+                  />
+                ))}
+                </tbody>
+              </table>
+            </div>
+          )}
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
     githubList: state.githubList,
-    search: state.searchPlaceholder
+    search: state.search
   }
 }
 

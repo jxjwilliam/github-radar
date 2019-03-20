@@ -9,6 +9,7 @@ const githubReducer = (state = [], action) => {
         return action.payload.items.reduce((arr, item) => {
           arr.push({
             'name': item['name'],
+            'fname': item['full_name'],
             'forks': item['forks'],
             'stars': item['stargazers_count'],
             'size': item['size'],
@@ -16,6 +17,9 @@ const githubReducer = (state = [], action) => {
             'desc': item['description'],
             'created': item['created_at'],
             'updated': item['updated_at'],
+            'watchers': item['watchers'],
+            'issues': item['open_issues'],
+            'language': item['language']
           });
           return arr;
         }, []);

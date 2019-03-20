@@ -14,6 +14,39 @@ export const isEmpty = prop => {
     (prop.constructor === Object && Object.keys(prop).length === 0)
 }
 
+export const SortAsc = ({sort, name}) => (
+  <button
+    type="button"
+    title={'sort by ' + name}
+    className="link-button"
+    onClick={() => sort(name, 'asc')}>
+    <i className="fa fa-sort-up fa-lg"></i>
+  </button>
+)
+
+export const SortDesc = ({sort, name}) => (
+  <button
+    type="button"
+    title={'sort by ' + name + ' desc'}
+    className="link-button"
+    onClick={() => sort(name, 'desc')}>
+    <i className="fa fa-sort-down fa-lg"></i>
+  </button>
+)
+
+export const FieldSearch = ({name, onSearch}) => (
+  <div className="input-group">
+    <input
+      type="search"
+      className="form-control"
+      placeholder={name}
+      name="field_search"
+      title="search in this page"
+      onChange={e => onSearch(e, name)}
+    />
+  </div>
+)
+
 export const areEqualShallow = (a, b) => {
   for (let key in a) {
     if (!(key in b) || a[key] !== b[key]) {
