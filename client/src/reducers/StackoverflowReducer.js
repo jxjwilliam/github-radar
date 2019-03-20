@@ -14,8 +14,8 @@ const stackoverflowReducer = (state = [], action) => {
             'answers': item['answer_count'],
             'url': item['link'],
             'desc': item['title'],
-            'created': new Date(item['creation_data']).toLocaleDateString("en-US"),
-            'updated': new Date(item['last_edit_date']).toLocaleDateString("en-US")
+            'created': new Date(item['creation_date']*1000).toLocaleDateString("en-US"),
+            'updated': new Date(item['last_activity_date']*1000).toLocaleDateString("en-US")
           });
           return arr;
         }, []);

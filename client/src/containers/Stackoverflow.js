@@ -85,10 +85,18 @@ class Stackoverflow extends Component {
       this.setState({done: false});
     }, 0);
     this.props.searchSOF(data)
-      .then(ret => this.setState({
-        total: ret.payload.quota_max + ret.payload.quota_remaining,
-        done: true
-      }));
+      .then(ret => {
+        let total = 0;
+        try {
+          total = ret.payload.quota_max + ret.payload.quota_remaining
+        } catch (e) {
+          total = 0;
+        }
+        this.setState({
+          total: total,
+          done: true
+        })
+      });
   }
 
   render() {

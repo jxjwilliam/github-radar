@@ -1,8 +1,7 @@
 export const searchSOF = data => dispatch => {
   var keyword = data.search.trim();
-  var criteria = data.criteria ? data.criteria : 'repositories';
-  var url = "/api/stackoverflow/v1/search/" + keyword + '/' + criteria;
-
+  var url = "/api/stackoverflow/v1/search/" + keyword;
+  //var url = "/data/stackoverflow.json";
   var headers = {
     "Content-type": "application/json",
     "Accept": "application/json",

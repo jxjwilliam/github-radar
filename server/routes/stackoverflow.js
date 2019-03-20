@@ -1,15 +1,17 @@
 const express = require('express')
 const router = express.Router();
+const request = require('request');
 
-router.get('/', function (req, res, next) {
-  res.render('Stack Overflow');
-})
-
-const SearchOptions = {}
+const headers = {
+  "content-type": "application/json",
+  'User-Agent': 'request'
+}
 
 // /2.2/search/advanced?order=desc&sort=activity&q=reactjs&site=stackoverflow
 // https://api.stackexchange.com/2.2/search/advanced?key=U4DMV*8nvpm3EOpvf69Rxw((&site=stackoverflow&order=desc&sort=activity&q=reactjs&filter=default
-const URL = "https://api.stackexchange.com/2.2/search/advanced?key=U4DMV*8nvpm3EOpvf69Rxw((&site=stackoverflow&order=desc&sort=activity&filter=default";
+const PREFIX = "https://api.stackexchange.com/2.2/search/advanced?key=";
+const SUFFIX = "&site=stackoverflow&order=desc&sort=activity&filter=default";
+const KEY = "";
 
 router.route(['/search/:keyword', '/search/:keyword/:criteria'])
   .get((req, res) => {
@@ -19,7 +21,7 @@ router.route(['/search/:keyword', '/search/:keyword/:criteria'])
       keyword = keyword.replace(/\s+/g, '+');
     }
 
-    url = URL + '&q=' + keyword;
+    const url = PREFIX + KEY + SUFFIX + '&q=' + keyword;
 
     const options = {
       url: url,
@@ -28,7 +30,7 @@ router.route(['/search/:keyword', '/search/:keyword/:criteria'])
 
     console.log('searching: ', url);
 
-    return request(options, (err, response, body) => {
+    request(options, (err, response, body) => {
       if (err) {
         res.json({"error": err.toString()});
       }
