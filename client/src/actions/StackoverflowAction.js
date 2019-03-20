@@ -1,7 +1,7 @@
 export const searchSOF = data => dispatch => {
   var keyword = data.search.trim();
-  var url = "/api/stackoverflow/v1/search/" + keyword;
-  //var url = "/data/stackoverflow.json";
+  // var url = "/api/stackoverflow/v1/search/" + keyword;
+  var url = "/data/stackoverflow.json";
   var headers = {
     "Content-type": "application/json",
     "Accept": "application/json",
