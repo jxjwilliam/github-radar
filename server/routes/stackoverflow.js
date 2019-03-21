@@ -16,7 +16,7 @@ const PREFIX = "https://api.stackexchange.com/2.2/search/advanced?key=";
 const SUFFIX = "&site=stackoverflow&order=desc&sort=activity&filter=default";
 const KEY = "U4DMV*8nvpm3EOpvf69Rxw((";
 
-router.route(['/search/:keyword', '/search/:keyword/:criteria'])
+router.route('/search/:keyword')
   .get((req, res) => {
     var keyword = req.params.keyword;
 
@@ -32,7 +32,7 @@ router.route(['/search/:keyword', '/search/:keyword/:criteria'])
       headers: headers
     };
 
-    request(options).pipe(zlib.createGunzip()).pipe(res);
+    request(options).pipe(zlib.createGunzip()).pipe(process.output).pipe(res);
   });
 
 

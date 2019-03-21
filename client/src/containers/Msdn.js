@@ -7,7 +7,17 @@ import {searchFields} from '../reducers/'
 import Searchbox from './Search'
 import {SortAsc, SortDesc, FieldSearch} from '../utils'
 
-const HFields = [];
+const HFields = [
+  ['Rating', 'rating'],
+  ['Score', 'score'],
+  ['Summary', 'summary'],
+  ['Tags', 'tags'],
+  ['Title', 'title'],
+  ['Type', 'type'],
+  ['Views', 'views'],
+  ['Created', 'created'],
+  ['Updated', 'updated']
+];
 
 const THeader = ({sort, onSearch}) => {
   let hlist = HFields.map((hf, inx) => (
@@ -29,16 +39,17 @@ const THeader = ({sort, onSearch}) => {
 }
 
 const Detail = ({idx, item, onEdit, onDelete}) => {
-  const {created, updated, name, forks, stars, size, url, desc} = item;
+  const {rating, score, summary, tags, title, type, url, views, created, updated} = item;
   return (
     <tr>
       <td>{idx + 1}</td>
-      <td>{name}</td>
-      <td>{url}</td>
-      <td>{desc}</td>
-      <td>{stars}</td>
-      <td>{forks}</td>
-      <td>{size}</td>
+      <td className="col-md-1">{rating}</td>
+      <td>{score}</td>
+      <td><a href={url} title={summary}>{summary}</a></td>
+      <td className="col-md-1">{tags}</td>
+      <td>{title}</td>
+      <td>{type}</td>
+      <td>{views}</td>
       <td>{created}</td>
       <td>{updated}</td>
     </tr>
@@ -79,7 +90,7 @@ class Msdn extends Component {
     }, 0);
     this.props.searchMSDN(data)
       .then(ret => this.setState({
-        total: 0,
+        total: ret.total,
         done: true
       }));
   }

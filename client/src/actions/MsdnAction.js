@@ -1,7 +1,6 @@
 export const searchMSDN = data => dispatch => {
   var keyword = data.search.trim();
-  var criteria = data.criteria ? data.criteria : 'repositories';
-  var url = "/api/msdn/v1/search/" + keyword + '/' + criteria;
+  var url = "/api/msdn/v1/search/" + keyword;
 
   var headers = {
     "Content-type": "application/json",
