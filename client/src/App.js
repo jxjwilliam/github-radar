@@ -11,8 +11,8 @@ const UserLoginRouters = () => (
     <Route path="/github" component={Repository.Github}/>
     <Route path="/stackoverflow" component={Repository.Stackoverflow}/>
     <Route path="/msdn" component={Repository.Msdn}/>
+    <Route path="/youtube" component={Repository.Youtube}/>
     <Route path="/about" render={(props) => <h1>About</h1>}/>
-    <Route path="/contact" render={(props) => <h1>Contact</h1>}/>
     <Route render={({match}) => <Redirect to="/"/>}/>
   </Switch>
 )

@@ -19,7 +19,7 @@ const msdnReducer = (state = [], action) => {
         return action.payload.data.reduce((arr, item) => {
           arr.push({
             rating: objToString(item['rating']),
-            score: item['searchScore'],
+            score: item['searchScore'].toFixed(2),
             summary: item['summary'],
             tags: item['tags'].join(','),
             title: item['title'],
