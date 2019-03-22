@@ -1,6 +1,6 @@
-export const searchMSDN = data => dispatch => {
+export const searchYoutube = data => dispatch => {
   var keyword = data.search.trim();
-  var url = "/api/msdn/v1/search/" + keyword;
+  var url = "/api/youtube/v1/search/" + keyword;
 
   var headers = {
     "Content-type": "application/json",
@@ -14,17 +14,17 @@ export const searchMSDN = data => dispatch => {
     .then(res => res.json())
     .then(
       (data) => dispatch({
-        type: 'SEARCH_MSDN',
+        type: 'SEARCH_YOUTUBE',
         payload: data
       }),
       (error) => dispatch({
-        type: 'SEARCH_MSDN_FAIL',
+        type: 'SEARCH_YOUTUBE_FAIL',
         error
       }))
 }
 
-export const sortMSDN = (sortBy, seq) => ({
-  type: 'SORT_MSDN',
+export const sortYoutube = (sortBy, seq) => ({
+  type: 'SORT_YOUTUBE',
   sortBy: sortBy,
   seq: seq
 })

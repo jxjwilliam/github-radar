@@ -3,11 +3,14 @@ const router = express.Router();
 const request = require('request');
 const zlib = require('zlib');
 
+//  "Accept": "text/html,application/xhtml+xml,application/xml,application/json",
 const headers = {
   "content-type": "application/json",
-  "Accept": "text/html,application/xhtml+xml,application/xml,application/json",
   "User-Agent": "request",
   'Accept-Encoding': 'gzip'
+  'User-Agent': 'request',
+  'Accept-Encoding': 'gzip',
+  'Accept': "application/json"
 }
 
 // /2.2/search/advanced?order=desc&sort=activity&q=reactjs&site=stackoverflow
@@ -15,8 +18,9 @@ const headers = {
 const PREFIX = "https://api.stackexchange.com/2.2/search/advanced?key=";
 const SUFFIX = "&site=stackoverflow&order=desc&sort=activity&filter=default";
 const KEY = "5zKPVUV9moMdf8vmqAI6uQ((";
+//const KEY = "U4DMV*8nvpm3EOpvf69Rxw((";
 
-router.route(['/search/:keyword', '/search/:keyword/:criteria'])
+router.route('/search/:keyword')
   .get((req, res) => {
     var keyword = req.params.keyword;
 
@@ -33,6 +37,7 @@ router.route(['/search/:keyword', '/search/:keyword/:criteria'])
     };
 
     request(options).pipe(zlib.createGunzip()).pipe(res);
+    //request(options).pipe(zlib.createGunzip()).pipe(process.output).pipe(res);
   });
 
 

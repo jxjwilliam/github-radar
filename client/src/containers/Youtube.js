@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {searchAction, headerAction} from '../actions/'
-import {searchMSDN, sortMSDN} from '../actions/MsdnAction'
+import {searchYoutube, sortYoutube} from '../actions/YoutubeAction'
 import {searchFields} from '../reducers/'
 import Searchbox from './Search'
 import {SortAsc, SortDesc, FieldSearch} from '../utils'
@@ -56,13 +56,12 @@ const Detail = ({idx, item, onEdit, onDelete}) => {
   )
 }
 
-class Msdn extends Component {
+class Youtube extends Component {
   state = {
     search_value: '',
     search_field: '',
     done: true,
-    title: 'MSDN',
-    total: 0
+    title: 'Youtube'
   };
 
   componentDidMount() {
@@ -88,23 +87,22 @@ class Msdn extends Component {
     setTimeout(() => {
       this.setState({done: false});
     }, 0);
-    this.props.searchMSDN(data)
+    this.props.searchYoutube(data)
       .then(ret => this.setState({
-        total: ret.payload.total,
         done: true
       }));
   }
 
   render() {
-    const {msdnList, sortMSDN} = this.props;
+    const {youtubeList, sortYoutube} = this.props;
     const {search_value, search_field} = this.state;
     let list = [], total_idx = 0;
     if (search_field && search_value) {
-      list = searchFields(msdnList, search_field, search_value) || [];
+      list = searchFields(youtubeList, search_field, search_value) || [];
     }
     else {
-      list = msdnList || [];
-      total_idx = msdnList.length;
+      list = youtubeList || [];
+      total_idx = youtubeList.length;
     }
 
     return (
@@ -113,15 +111,11 @@ class Msdn extends Component {
           <div className="col-md-10">
             <Searchbox onChange={this.handleGlobalSearch}/>
           </div>
-          <div className="col-md-2">
-            {this.state.total ?
-              <label className="alert alert-danger">total <code>{this.state.total}</code></label> : null}
-          </div>
         </div>
         {!this.state.done ? <div className="loader"/> : (
             <div className="row" style={{paddingTop: 10}}>
               <table className="table table-bordered">
-                <THeader sort={sortMSDN} onSearch={this.handleSearch}/>
+                <THeader sort={sortYoutube} onSearch={this.handleSearch}/>
                 <tbody>
                 {Array.isArray(list) && list.map((item, i) => (
                   <Detail
@@ -141,15 +135,15 @@ class Msdn extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    msdnList: state.msdnList,
+    youtubeList: state.youtubeList,
     search: state.search
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   let actions = bindActionCreators({
-    searchMSDN,
-    sortMSDN,
+    searchYoutube,
+    sortYoutube,
     searchAction,
     headerAction
   }, dispatch);
@@ -159,4 +153,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Msdn);
+)(Youtube);

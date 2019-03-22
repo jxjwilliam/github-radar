@@ -1,21 +1,33 @@
 import orderBy from 'lodash/orderBy'
 
+function objToString (obj) {
+  var str = '';
+  for (var p in obj) {
+    if (obj.hasOwnProperty(p)) {
+      str += p + ':' + obj[p] + '\r\n';
+    }
+  }
+  return str;
+}
+
 const msdnReducer = (state = [], action) => {
   switch (action.type) {
     case 'SORT_MSDN':
       return orderBy(state, [action.sortBy], [action.seq]);
     case 'SEARCH_MSDN':
-      if (Array.isArray(action.payload.items)) {
-        return action.payload.items.reduce((arr, item) => {
+      if (Array.isArray(action.payload.data)) {
+        return action.payload.data.reduce((arr, item) => {
           arr.push({
-            'name': item['name'],
-            'forks': item['forks'],
-            'stars': item['stargazers_count'],
-            'size': item['size'],
-            'url': item['html_url'],
-            'desc': item['description'],
-            'created': item['created_at'],
-            'updated': item['updated_at'],
+            rating: objToString(item['rating']),
+            score: item['searchScore'].toFixed(2),
+            summary: item['summary'],
+            tags: item['tags'].join(','),
+            title: item['title'],
+            type: item['type'],
+            url: "https://channel9.msdn.com" + item['url'],
+            views: objToString(item['views']),
+            created: item['published'].replace(/[A-Z].+$/, ''),
+            updated: item['modified'].replace(/[A-Z].+$/, ''),
           });
           return arr;
         }, []);
