@@ -7,7 +7,6 @@ const zlib = require('zlib');
 const headers = {
   "content-type": "application/json",
   "User-Agent": "request",
-  'Accept-Encoding': 'gzip'
   'User-Agent': 'request',
   'Accept-Encoding': 'gzip',
   'Accept': "application/json"
