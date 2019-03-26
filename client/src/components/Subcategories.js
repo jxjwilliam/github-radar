@@ -8,17 +8,17 @@ const Menu = {
     'epam': []
 }
 
-const SubcategoryMenu = category => ({handleClick})=> {
+const SubcategoryMenu = category => ()=> {
     var clist = [];
     if(Array.isArray(Menu[category]) && Menu[category].length > 0) {
         clist = Menu[category].match((c,i) => {
-            <NavLink class="grid--cell s-btn s-btn__muted s-btn__outlined" key={`${c}-{i}`} onClick={handleClick}>
+            <NavLink key={`${c}-{i}`} to="/abc/efg">
             {c}</NavLink>
         })
     }
 
     return (
-    <div class="grid s-btn-group js-filter-btn">
+    <div className="grid s-btn-group js-filter-btn">
         {clist}
     </div>
     )

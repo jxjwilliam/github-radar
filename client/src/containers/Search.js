@@ -1,12 +1,12 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Languages, GithubSearch, StackoverflowSearch, MsdnSearch} from '../config'
+import {Languages, GithubCategories, StackoverflowCategories, MsdnCategories} from '../config'
 import {searchAction} from '../actions/'
 
 const GithubSelector1 = ({gs1}) => (
   <select onChange={gs1}>
     <option value="">-- Search Criteria --</option>
-    {GithubSearch.map((key, index) => (
+    {GithubCategories.map((key, index) => (
       <option key={`${index}-${key}`} value={key}>
         {key}
       </option>
@@ -69,12 +69,12 @@ class Searchbox extends React.Component {
             ) :
             selector === 2 ? (
                 <Fragment>
-                  {MsdnSearch}
+                  {MsdnCategories}
                 </Fragment>
               ) :
               selector === 3 ? (
                   <Fragment>
-                    {StackoverflowSearch}
+                    {StackoverflowCategories}
                   </Fragment>
                 ) : null
           }

@@ -1,11 +1,25 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {NavLink} from 'react-router-dom'
 import {searchAction, headerAction} from '../actions'
 import {searchGithub, sortGithub} from '../actions/GithubAction'
 import {searchFields} from '../reducers/'
 import Searchbox from './Search'
 import {SortAsc, SortDesc, FieldSearch} from '../utils'
+import {GithubCategories} from '../config';
+
+const HMenu = () => {
+  var hlist = GithubCategories.map( (gs, i) => (
+    <NavLink key={`${gs[0]}-{i}`} to={gs[1]} title={gs[0]}>{gs[0]}{" | "}</NavLink>
+    )
+  )
+  return (
+    <div className="grid s-btn-group js-filter-btn">
+        {hlist}
+    </div>
+  )
+}
 
 // number-field don't need `FieldSearch`. e.g. Forks, Stars.
 const HFields = [
@@ -118,6 +132,9 @@ class Github extends Component {
 
     return (
       <div className="container" style={{paddingTop: 48}}>
+        <div className="row">
+          <HMenu />
+        </div>
         <div className="row">
           <div className="col-md-10">
             <Searchbox onChange={this.handleGlobalSearch}/>

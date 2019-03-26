@@ -14,8 +14,8 @@ const YearMenu = nav => {
     ))
     
     return (
-        <div class="profile-timeline-year-list js-profile-timeline-year-list bg-white js-sticky float-right col-2 pl-5" style="position: static;">
-            <ul class="filter-list small">
+        <div className="profile-timeline-year-list js-profile-timeline-year-list bg-white js-sticky float-right col-2 pl-5" style="position: static;">
+            <ul className="filter-list small">
                 {ylist}
             </ul>
         </div>

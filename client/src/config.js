@@ -25,17 +25,25 @@ export const Languages = [
   "MATLAB",
 ];
 
-export const GithubSearch = [
-  'Repositories',
-  'Code',
-  'Commits',
-  'Issues',
-  'Users',
-  'Labels',
-  'Topics',
-  'Text match metadata'
+export const GithubCategories = [
+  ['Repositories', '/github/repository'],
+  ['Topics', '/github/topics'],
+  ['Commits', '/github/commits'],
+  ['Labels', '/github/labels'],
+  ['Issues', '/github/issues'],
+  ['Code', '/github/code'],
+  ['Users', '/github/users'],
+  ['Text match metadata', '/github/tmm'],
 ];
 
-export const StackoverflowSearch = []
+export const StackoverflowCategories = [
+  ['Views', "/stackoverflow/views"],
+  ['Hottest', "/stackoverflow/hot"],
+  ['Latest', "/stackoverflow/latest"],
+  ['Tags', "/stackoverflow/tags"],
+]
 
-export const MsdnSearch = []
+export const MsdnCategories = [
+  ['Channel9', "/msdn/channel9"],
+  ['Others', "/msdn/others"]
+]

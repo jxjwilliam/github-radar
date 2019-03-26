@@ -1,90 +1,115 @@
-import React, {Component} from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import {Footer, Navigator} from './components'
+import React, {
+  Component
+} from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom'
+import {
+  Footer,
+  Navigator
+} from './components'
 import Header from './containers/Header'
-import Repository, {
-  Repository,  Commit,  Topic,
-  Views, Hot, Latest,
-  Tags, Channel9, Others
-}  from './containers'
+import Repos, {
+  Repository,
+  Commit,
+  Topic,
+  Views,
+  Hot,
+  Latest,
+  Tags,
+  Channel9,
+  Others
+} from './containers'
+import {GithubCategories, StackoverflowCategories, MsdnCategories} from './config'
 import './App.css';
+
+const About = () => <h1>About</h1>
 
 const routes = [{
   path: "/",
   exact: true,
-  component: Repository.Github
+  component: Repos.Github
 }, {
   path: "/github",
-  component: Repository.Github,
-  routes: [ {
-    path: "/github/repository",
+  component: Repos.Github,
+  routes: [{
+    path: GithubCategories[0][1],
     Component: Repository
   }, {
-    path: "/github/topics",
+    path: GithubCategories[1][1],
     Component: Topic
   }, {
-    path: "/github/commits",
+    path: GithubCategories[2][1],
     Component: Commit
-  }
-  ]
-}, {
-  path: "/stackoverflow",
-  component: Repository.Stackoverflow,
-  routes: [ {
-    path: "/stackoverflow/views",
-    Component: Views
-  }, {
-    path: "/stackoverflow/hot",
-    Component: Hot
-  }, {
-    path: "/stackoverflow/latest",
-    Component: Latest
-  }, {
-    path: "/stackoverflow/tags",
-    Component: Tags
-  }
-] 
-}, {
-  path: "/msdn",
-  component: Repository.Msdn,
-  routes: [ {
-    path: "/msdn/channel9",
-    Component: Channel9
-  }, {
-    path: "/msdn/others",
-    Component: Others
   }
 ]
 }, {
-  path: "/about",
-  render: (props) => <h1>About</h1>
+  path: "/stackoverflow",
+  component: Repos.Stackoverflow,
+  routes: [{
+    path: StackoverflowCategories[0][1],
+    Component: Views
+  }, {
+    path: StackoverflowCategories[1][1],
+    Component: Hot
+  }, {
+    path: StackoverflowCategories[2][1],
+    Component: Latest
+  }, {
+    path: StackoverflowCategories[3][1],
+    Component: Tags
+  }]
 }, {
-  render: ({match}) => <Redirect to="/"></Redirect>
+  path: "/msdn",
+  component: Repos.Msdn,
+  routes: [{
+    path: MsdnCategories[0][1],
+    Component: Channel9
+  }, {
+    path: MsdnCategories[0][1],
+    Component: Others
+  }]
+}, {
+  path: "/about",
+  component: About
+}, {
+  path: "/*",
+  component: Repos.Github
 }]
 
 
-const RouteWithSubRoutes = route => (
-  <Route path={route.path} render={props => (
-    <route.component {...props} routes={route.routes} />
-  )}
-  />
-)
+function RouteWithSubRoutes(route) {
+  return (
+    <Route
+      path={route.path}
+      render={props => (
+        // pass the sub-routes down to keep nesting
+        <route.component {...props} routes={route.routes} />
+      )}
+    />
+  );
+}
 
 
 class App extends Component {
   render() {
-    return (
+    return ( 
       <Router>
-        <div className="App container">
-          <Header title="GitHub"/>
-          <Navigator />
-          <Switch>
-            {routes.map((route, i) => (
-              <RouteWithSubRoutes key={i} {...route} />
-            ))}
-          </Switch>
-          <Footer/>
-        </div>
+      <div className="App container">
+        <Header title="GitHub" />
+        <Navigator />
+        <Switch> 
+        {
+          routes.map((route, i) => ( 
+            <RouteWithSubRoutes key={i} {...route} />
+          ))
+        }
+        </Switch>
+        <Footer />
+      </div>
       </Router>
     )
   }
