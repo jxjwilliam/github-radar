@@ -6,17 +6,20 @@ import {searchAction, headerAction} from '../actions'
 import {searchGithub, sortGithub} from '../actions/GithubAction'
 import {searchFields} from '../reducers/'
 import Searchbox from './Search'
-import {SortAsc, SortDesc, FieldSearch} from '../utils'
-import {GithubCategories} from '../config';
+import {SortAsc, SortDesc, FieldSearch, RouteWithSubRoutes} from '../utils'
+import {GithubCategories, getSubRoutes, Years} from '../config';
+import YearMenu from '../components/YearMenu'
 
 const HMenu = () => {
-  var hlist = GithubCategories.map( (gs, i) => (
-    <NavLink key={`${gs[0]}-{i}`} to={gs[1]} title={gs[0]}>{gs[0]}{" | "}</NavLink>
+  var hlist = GithubCategories.map((gs, i) => (
+      <NavLink key={`${gs[0]}-{i}`} to={gs[1]} title={gs[0]}>
+        {gs[0]}{" | "}
+      </NavLink>
     )
   )
   return (
     <div className="grid s-btn-group js-filter-btn">
-        {hlist}
+      {hlist}
     </div>
   )
 }
@@ -54,6 +57,7 @@ const THeader = ({sort, onSearch}) => {
     </thead>
   )
 }
+
 
 const Detail = ({idx, item}) => {
   const {
@@ -119,6 +123,8 @@ class Github extends Component {
   }
 
   render() {
+    const routes = getSubRoutes(1);
+    console.log('routes: ', routes);
     const {githubList, sortGithub} = this.props;
     const {search_value, search_field} = this.state;
     let list = [], total_idx = 0;
@@ -160,6 +166,17 @@ class Github extends Component {
               </table>
             </div>
           )}
+        <div className="row">
+          {routes.map((route, i) => (
+            <RouteWithSubRoutes key={i} {...route}/>
+          ))}
+        </div>
+        <YearMenu nav="github" />
+        <div className="row">
+          {Years.map((y, i) => (
+            <RouteWithSubRoutes key={i} {...y}/>
+          ))}
+        </div>
       </div>
     )
   }
