@@ -171,12 +171,12 @@ class Github extends Component {
             <RouteWithSubRoutes key={i} {...route}/>
           ))}
         </div>
-        <YearMenu nav="github" />
-        <div className="row">
-          {Years.map((y, i) => (
-            <RouteWithSubRoutes key={i} {...y}/>
-          ))}
-        </div>
+        {/*<YearMenu nav="github" />*/}
+         {/*<div className="row">*/}
+          {/*{Years.map((y, i) => (*/}
+            {/*<RouteWithSubRoutes key={i} {...y}/>*/}
+          {/*))}*/}
+        {/*</div>*/}
       </div>
     )
   }

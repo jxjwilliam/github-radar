@@ -5,7 +5,7 @@ import {Years} from '../config'
 const YearMenu = ({nav}) => {
   var ylist = Years.map((y, i) => (
     <li>
-      <NavLink to={`/${nav}/${y}`} activeStyle={{
+      <NavLink to={`/${nav}/${y}`} key={`${y}-${i}`} activeStyle={{
         fontweight: "bold",
         color: "red"
       }}>{y}</NavLink>

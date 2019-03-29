@@ -22,12 +22,15 @@ const KEY = "5zKPVUV9moMdf8vmqAI6uQ((";
 router.route('/search/:keyword')
   .get((req, res) => {
     var keyword = req.params.keyword;
+    console.log('keyword:', keyword);
 
     if (/\s+/.test(keyword)) {
       keyword = keyword.replace(/\s+/g, '+');
     }
 
     const url = PREFIX + KEY + SUFFIX + '&q=' + keyword;
+
+    console.log(url);
 
     const options = {
       url: url,
