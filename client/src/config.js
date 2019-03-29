@@ -60,7 +60,8 @@ export const routes = [
     path: "/",
     exact: true,
     component: Repos.Github
-  }, {
+  },
+  {
     path: "/github",
     component: Repos.Github,
     routes: [{
@@ -72,9 +73,37 @@ export const routes = [
     }, {
       path: GithubCategories[2][1],
       component: Commit
+    }, {
+      path: '/github/2011',
+      component: Demo
+    }, {
+      path: '/github/2012',
+      component: Demo
+    }, {
+      path: '/github/abc/efg/2013',
+      component: Demo
+    }, {
+      path: '2014',
+      component: Demo
+    }, {
+      path: '2015',
+      component: Demo
+    }, {
+      path: '2016',
+      component: Demo
+    }, {
+      path: '2017',
+      component: Demo
+    }, {
+      path: '2018',
+      component: Demo
+    }, {
+      path: '2019',
+      component: Demo
     }
     ]
-  }, {
+  },
+  {
     path: "/stackoverflow",
     component: Repos.Stackoverflow,
     routes: [{
@@ -89,9 +118,25 @@ export const routes = [
     }, {
       path: StackoverflowCategories[3][1],
       component: Tags
+    }, , {
+      path: '/stackoverflow/2011',
+      component: Demo
+    }, {
+      path: '/stackoverflow/2012',
+      component: Demo
+    }, {
+      path: '/stackoverflow/abc/efg/2013',
+      component: Demo
+    }, {
+      path: '/stackoverflow/2014',
+      component: Demo
+    }, {
+      path: '2015',
+      component: Demo
     }
     ]
-  }, {
+  },
+  {
     path: "/msdn",
     component: Repos.Msdn,
     routes: [{
@@ -100,9 +145,16 @@ export const routes = [
     }, {
       path: MsdnCategories[0][1],
       component: Others
+    }, {
+      path: '/msdn/2011',
+      component: Demo
+    }, {
+      path: '/msdn/2012',
+      component: Demo
     }
     ]
-  }, {
+  },
+  {
     path: "/about",
     component: About
   }, {
@@ -115,17 +167,6 @@ export const getSubRoutes = (category) => {
   return routes[category]['routes']
 }
 
-export const Years = [
-  {path: '2011', component: Demo},
-  {path: '2012', component: Demo},
-  {path: '2013', component: Demo},
-  {path: '2014', component: Demo},
-  {path: '2015', component: Demo},
-  {path: '2016', component: Demo},
-  {path: '2017', component: Demo},
-  {path: '2018', component: Demo},
-  {path: '2019', component: Demo},
-];
 
 export const Industries = [
   'Financial Services',  //23%

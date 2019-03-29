@@ -1,11 +1,28 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {NavLink} from 'react-router-dom'
 import {searchAction, headerAction} from '../actions/'
 import {searchMSDN, sortMSDN} from '../actions/MsdnAction'
 import {searchFields} from '../reducers/'
 import Searchbox from './Search'
-import {SortAsc, SortDesc, FieldSearch} from '../utils'
+import YearMenu from '../components/YearMenu'
+import {SortAsc, SortDesc, FieldSearch, RouteWithSubRoutes} from '../utils'
+import {MsdnCategories, getSubRoutes} from '../config';
+
+const HMenu = () => {
+  var hlist = MsdnCategories.map((gs, i) => (
+      <NavLink key={`${gs[0]}-{i}`} to={gs[1]} title={gs[0]}>
+        {gs[0]}{" | "}
+      </NavLink>
+    )
+  )
+  return (
+    <div className="grid s-btn-group js-filter-btn">
+      {hlist}
+    </div>
+  )
+}
 
 const HFields = [
   ['Rating', 'rating'],
@@ -96,6 +113,8 @@ class Msdn extends Component {
   }
 
   render() {
+    const routes = getSubRoutes(3);
+
     const {msdnList, sortMSDN} = this.props;
     const {search_value, search_field} = this.state;
     let list = [], total_idx = 0;
@@ -109,6 +128,9 @@ class Msdn extends Component {
 
     return (
       <div className="container" style={{paddingTop: 48}}>
+        <div className="row">
+          <HMenu/>
+        </div>
         <div className="row">
           <div className="col-md-10">
             <Searchbox onChange={this.handleGlobalSearch}/>
@@ -134,6 +156,13 @@ class Msdn extends Component {
               </table>
             </div>
           )}
+
+        <YearMenu nav="msdn"/>
+        <div className="row">
+          { routes.map((route, i) => (
+            <RouteWithSubRoutes key={`msdn-${i}`} {...route}/>
+          ))}
+        </div>
       </div>
     )
   }

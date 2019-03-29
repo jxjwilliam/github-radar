@@ -1,14 +1,13 @@
 import React, {Fragment} from 'react';
 import {NavLink} from 'react-router-dom'
-import {Years} from '../config'
 
 const YearMenu = ({nav}) => {
-  var ylist = Years.map((y, i) => (
-    <li key={`${y.path}-${i}`}>
-      <NavLink exact to={`/${nav}/${y.path}`} title={y.path} activeStyle={{
+  var ylist = ['2010', '2011', '2012', '2013', '2014'].map((y, i) => (
+    <li key={`${y}-${i}`}>
+      <NavLink exact to={`/${nav}/${y}`} title={y} activeStyle={{
         fontweight: "bold",
         color: "red"
-      }}>{y.path}</NavLink>
+      }}>{y}</NavLink>
     </li>
   ))
 

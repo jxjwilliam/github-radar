@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Languages, GithubCategories, StackoverflowCategories, MsdnCategories, Years} from '../config'
+import {Languages, GithubCategories, StackoverflowCategories, MsdnCategories} from '../config'
 import {searchAction} from '../actions/'
 import {getSelector} from '../utils'
 

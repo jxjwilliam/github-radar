@@ -1,11 +1,28 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {NavLink} from 'react-router-dom'
 import {searchAction, headerAction} from '../actions'
 import {searchSOF, sortSOF} from '../actions/StackoverflowAction'
 import {searchFields} from '../reducers/'
 import Searchbox from './Search'
-import {SortAsc, SortDesc, FieldSearch} from '../utils'
+import YearMenu from '../components/YearMenu'
+import {SortAsc, SortDesc, FieldSearch, RouteWithSubRoutes} from '../utils'
+import {StackoverflowCategories, getSubRoutes} from '../config';
+
+const SMenu = () => {
+  var hlist = StackoverflowCategories.map((gs, i) => (
+      <NavLink key={`${gs[0]}-{i}`} to={gs[1]} title={gs[0]}>
+        {gs[0]}{" | "}
+      </NavLink>
+    )
+  )
+  return (
+    <div className="grid s-btn-group js-filter-btn">
+      {hlist}
+    </div>
+  )
+}
 
 const HFields = [
   ['Tags', 'tags'],
@@ -100,6 +117,8 @@ class Stackoverflow extends Component {
   }
 
   render() {
+    const routes = getSubRoutes(2);
+
     const {sofList, sortSOF} = this.props;
     const {search_value, search_field} = this.state;
     let list = [], total_idx = 0;
@@ -113,6 +132,9 @@ class Stackoverflow extends Component {
 
     return (
       <div className="container" style={{paddingTop: 48}}>
+        <div className="row">
+          <SMenu/>
+        </div>
         <div className="row">
           <div className="col-md-10">
             <Searchbox onChange={this.handleGlobalSearch}/>
@@ -138,6 +160,13 @@ class Stackoverflow extends Component {
               </table>
             </div>
           )}
+
+        <YearMenu nav="stackoverflow"/>
+        <div className="row">
+          { routes.map((route, i) => (
+            <RouteWithSubRoutes key={`stackoverflow-${i}`} {...route}/>
+          ))}
+        </div>
       </div>
     )
   }

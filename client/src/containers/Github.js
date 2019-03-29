@@ -8,7 +8,7 @@ import {searchFields} from '../reducers/'
 import Searchbox from './Search'
 import YearMenu from '../components/YearMenu'
 import {SortAsc, SortDesc, FieldSearch, RouteWithSubRoutes} from '../utils'
-import {GithubCategories, getSubRoutes, Years} from '../config';
+import {GithubCategories, getSubRoutes} from '../config';
 
 const HMenu = () => {
   var hlist = GithubCategories.map((gs, i) => (
@@ -124,6 +124,7 @@ class Github extends Component {
 
   render() {
     const routes = getSubRoutes(1);
+
     const {githubList, sortGithub} = this.props;
     const {search_value, search_field} = this.state;
     let list = [], total_idx = 0;
@@ -167,12 +168,7 @@ class Github extends Component {
           )}
         <YearMenu nav="github"/>
         <div className="row">
-          {Years.map((year, i) => (
-            <RouteWithSubRoutes key={`year-${i}`} {...year}/>
-          ))}
-        </div>
-        <div className="row">
-          {routes.map((route, i) => (
+          { routes.map((route, i) => (
             <RouteWithSubRoutes key={`github-${i}`} {...route}/>
           ))}
         </div>
