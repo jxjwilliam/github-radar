@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import {routes} from './config'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {routes, Languages} from './config'
 import {Footer, Navigator} from './components'
 import Header from './containers/Header'
 import './App.css';
 
-const UserLoginRouters = ({routes}) => {
+const TrendsRouters = ({routes}) => {
   const rs = routes.map(r => {
     let {routes, ...o} = r;
     return <Route path={o.path} component={o.component} key={o.component} {...o} />
@@ -24,7 +24,7 @@ class App extends Component {
         <div className="App container">
           <Header title="GitHub"/>
           <Navigator />
-          <UserLoginRouters routes={routes}/>
+          <TrendsRouters routes={routes}/>
           <Footer />
         </div>
       </Router>

@@ -13,9 +13,10 @@ export const Hot = () => <h1>Hot</h1>
 export const Latest = () => <h1>Latest</h1>
 export const Tags = () => <h1>Tags</h1>
 export const Channel9 = () => <h1>Channel9</h1>
+export const Blogs = () => <h1>Blogs</h1>
 export const Others = () => <h1>Others</h1>
 export const About = () => <h1>About</h1>
-
+export const Demo = () => <h1>Demo</h1>
 
 export default {
   Github,

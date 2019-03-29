@@ -1,33 +1,15 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Languages, GithubCategories, StackoverflowCategories, MsdnCategories} from '../config'
+import {Languages, GithubCategories, StackoverflowCategories, MsdnCategories, Years} from '../config'
 import {searchAction} from '../actions/'
+import {getSelector} from '../utils'
 
-const GithubSelector1 = ({gs1}) => (
-  <select onChange={gs1}>
-    <option value="">-- Search Criteria --</option>
-    {GithubCategories.map((key, index) => (
-      <option key={`${index}-${key}`} value={key}>
-        {key}
-      </option>
-    ))}
-  </select>
-)
-
-const GithubSelector2 = ({gs2}) => (
-  <select onChange={gs2}>
-    <option value="">-- Languages --</option>
-    {Languages.map((key, index) => (
-      <option key={`${index}-${key}`} value={key}>
-        {key}
-      </option>
-    ))}
-  </select>
-)
 
 class Searchbox extends React.Component {
+
   constructor(props) {
     super(props);
+
     this.state = {
       search: '',
       criteria: ''
@@ -35,6 +17,12 @@ class Searchbox extends React.Component {
   }
 
   render() {
+
+    const GithubSelector = getSelector(GithubCategories);
+    const LanguageSelector = getSelector(Languages);
+    const StackoverflowSelector = getSelector(StackoverflowCategories);
+    const MsdnSelector = getSelector(MsdnCategories);
+
     let placeholder = 'Search ' + this.props.search.placeholder || '...';
     let selector = this.props.search.selectors;
     return (
@@ -60,23 +48,23 @@ class Searchbox extends React.Component {
               <i className="fa fa-search-plus"></i>
             </button>
           </div>
-
-          {selector === 1 ? (
-              <Fragment>
-                <GithubSelector1 gs1={this.handleOptionChange}/>
-                <GithubSelector2 gs2={this.handleSelectChange}/>
-              </Fragment>
-            ) :
-            selector === 2 ? (
+          {
+            selector === 1 ? (
                 <Fragment>
-                  {MsdnCategories}
+                  <GithubSelector title="Github Criteria" handler={this.handleOptionChange}/>
+                  <LanguageSelector title="Language" handler={this.handleSelectChange}/>
                 </Fragment>
               ) :
-              selector === 3 ? (
+              selector === 2 ? (
                   <Fragment>
-                    {StackoverflowCategories}
+                    <StackoverflowSelector title="SOF Criteria" handler={this.handleSelectChange}/>
                   </Fragment>
-                ) : null
+                ) :
+                selector === 3 ? (
+                    <Fragment>
+                      <MsdnSelector title="MSDN Criteria" handler={this.handleSelectChange}/>
+                    </Fragment>
+                  ) : null
           }
 
         </div>
@@ -109,7 +97,7 @@ class Searchbox extends React.Component {
       this.props.onChange(this.state);
     }
     else {
-      console.log('Please input searching creteria.');
+      console.log('Please input searching criteria.');
     }
     e.preventDefault();
   }

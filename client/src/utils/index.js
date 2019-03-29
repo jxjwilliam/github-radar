@@ -4,7 +4,7 @@ import {Route} from 'react-router-dom'
 export const loadingDefer = ms => {
   const promise = new Promise((resolve, reject) => {
     ms = ms || 2000; //default is 2 seconds
-    setTimeout(() => resolve('user-login'), ms);
+    setTimeout(() => resolve('trends-forcast-recommendation'), ms);
   })
   return promise;
 }
@@ -73,6 +73,17 @@ export function RouteWithSubRoutes(route) {
     />
   )
 }
+
+export const getSelector = cateArray => ({title, handler}) => (
+  <select onChange={handler}>
+    <option value="">{title}</option>
+    {cateArray.map((key, index) => (
+      <option key={`${key[0]}-${index}`} value={key[1]}>
+        {key[0]}
+      </option>
+    ))}
+  </select>
+)
 
 export const Loading = loadingProp => WrappedComponent => {
   return class Loading extends Component {

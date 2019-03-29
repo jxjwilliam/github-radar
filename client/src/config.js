@@ -1,33 +1,34 @@
 import Repos, {
   Repository, Commit, Topic, Views, Hot,
-  Latest, Tags, Channel9, Others, About
+  Latest, Tags, Channel9, Others, About, Demo
 } from './containers'
 
 // this part is better to be dynamically acquired.
 export const Languages = [
-  "JavaScript",
-  "React",
-  "Angular",
-  "Vue",
-  "Python",
-  "Java",
-  "Springboot",
-  "Microservices",
-  "Kotlin",
-  "Scalar",
-  "C++",
-  "C#",
-  ".NET",
-  "PHP",
-  "SQL",
-  "R",
-  "Ruby",
-  "Objective-C",
-  "Swift",
-  "Lisp",
-  "Perl",
-  "Go",
-  "MATLAB",
+  ["JavaScript", "javascript"],
+  ["C", "c"],
+  ["C++", "cplusplus"],
+  ["C#", "csharp"],
+  ["Python", "python"],
+  ["Java", "java"],
+  ["Visual Basic .NET", "vb.net"],
+  ["SQL", "sql"],
+  ["R", "r language"],
+  ["Ruby", "ruby"],
+  ["Objective-C", "objective-c"],
+  ["Visual Basic", "vb"],
+  ["Perl", "perl"],
+  ["Swift", "swift"],
+  ["Assembly Language", "assembly language"],
+  ["MATLAB", "matlab"],
+  ["Go", "go"],
+  ["Delphi/Object Pascal", "delphi"],
+  ["PL/SQL", "plsql"],
+  ["Lisp", "lisp"],
+  ["Ada", "ada"],
+  ["Go", "go"],
+  ["GoLang", "golang"],
+  ["Scala", "scala"],
 ];
 
 export const GithubCategories = [
@@ -49,6 +50,7 @@ export const StackoverflowCategories = [
 ]
 
 export const MsdnCategories = [
+  ['Blogs', '/msdn/blogs'],
   ['Channel9', "/msdn/channel9"],
   ['Others', "/msdn/others"]
 ]
@@ -113,11 +115,35 @@ export const getSubRoutes = (category) => {
   return routes[category]['routes']
 }
 
-export const Years = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'];
+export const Years = [
+  {path: '2011', component: Demo},
+  {path: '2012', component: Demo},
+  {path: '2013', component: Demo},
+  {path: '2014', component: Demo},
+  {path: '2015', component: Demo},
+  {path: '2016', component: Demo},
+  {path: '2017', component: Demo},
+  {path: '2018', component: Demo},
+  {path: '2019', component: Demo},
+];
 
-export const Industries = [];
+export const Industries = [
+  'Financial Services',  //23%
+  'Travel & Consumer',  // 21%
+  'Software & Hi-Tech', // 19%
+  'Business & Information Services', //18%
+  'Emerging', // 10%
+  'Life Siences & Healthcare',  //9%
+];
 
-export const Region = [];
+export const Region = [
+  'USA',
+  'Belarus & Russia & Ukrine',
+  'East Europe',
+  'East Asia',
+  'India',
+  'Others'
+];
 
 export const Recommendation = [];
 
