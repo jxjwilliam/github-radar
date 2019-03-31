@@ -64,7 +64,8 @@ export const routes = [
   {
     path: "/github",
     component: Repos.Github,
-    routes: [{
+    routes: [
+      {
       path: GithubCategories[0][1],
       component: Repository
     }, {
@@ -74,31 +75,35 @@ export const routes = [
       path: GithubCategories[2][1],
       component: Commit
     }, {
+        path: '/github/2010',
+        component: Demo
+      }, {
       path: '/github/2011',
       component: Demo
     }, {
       path: '/github/2012',
       component: Demo
     }, {
-      path: '/github/abc/efg/2013',
+      //path: '/github/abc/efg/2013',
+        path: '/github/2013',
       component: Demo
     }, {
-      path: '2014',
+      path: '/github/2014',
       component: Demo
     }, {
-      path: '2015',
+      path: '/github/2015',
       component: Demo
     }, {
-      path: '2016',
+      path: '/github/2016',
       component: Demo
     }, {
-      path: '2017',
+      path: '/github/2017',
       component: Demo
     }, {
-      path: '2018',
+      path: '/github/2018',
       component: Demo
     }, {
-      path: '2019',
+      path: '/github/2019',
       component: Demo
     }
     ]
@@ -106,7 +111,8 @@ export const routes = [
   {
     path: "/stackoverflow",
     component: Repos.Stackoverflow,
-    routes: [{
+    routes: [
+      {
       path: StackoverflowCategories[0][1],
       component: Views
     }, {
@@ -139,7 +145,8 @@ export const routes = [
   {
     path: "/msdn",
     component: Repos.Msdn,
-    routes: [{
+    routes: [
+      {
       path: MsdnCategories[0][1],
       component: Channel9
     }, {
