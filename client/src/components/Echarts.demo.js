@@ -14,14 +14,14 @@ class EchartsTest extends Component {
     var myChart = echarts.init(document.getElementById('main'));
     // 绘制图表
     myChart.setOption({
-      title: {text: 'ECharts 入门示例'},
+      title: {text: 'The Languages Trends'},
       tooltip: {},
       xAxis: {
-        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        data: ["JavaScript", "Java", "Python", ".NET", "Ruby", "C#"]
       },
       yAxis: {},
       series: [{
-        name: '销量',
+        name: 'Trends',
         type: 'bar',
         data: [5, 20, 36, 10, 10, 20]
       }]

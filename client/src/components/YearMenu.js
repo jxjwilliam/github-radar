@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import {NavLink} from 'react-router-dom'
 
 const YearMenu = ({nav}) => {
-  var ylist = ['2010', '2011', '2012', '2013', '2014'].map((y, i) => (
+  var ylist = ['2010', '2011', '2012', '2013', '2014','2015', '2016', '2017', '2018', '2019'].map((y, i) => (
     <li key={`${y}-${i}`}>
       <NavLink exact to={`/${nav}/${y}`} title={y} activeStyle={{
         fontweight: "bold",
