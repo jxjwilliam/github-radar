@@ -10,7 +10,7 @@ const http = require('http');
 const github = require('./routes/github');
 const stackoverflow = require('./routes/stackoverflow');
 const msdn = require('./routes/msdn');
-const youtube = require('./routes/youtube');
+const upsa = require('./epam/upsa');
 
 //const db = require('./mongo')
 //db.connect();
@@ -28,7 +28,8 @@ app.use(cookieParser());
 app.use('/api/github/v1/', github);
 app.use('/api/stackoverflow/v1/', stackoverflow);
 app.use('/api/msdn/v1/', msdn);
-app.use('/api/youtube/v1/', youtube);
+
+app.use('/api/upsa/v1/', upsa);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
