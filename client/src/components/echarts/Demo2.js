@@ -9,7 +9,7 @@ import 'echarts/lib/chart/custom'
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 
-class Repository1 extends Component {
+class Demo2 extends Component {
 
   state = {opts: {}};
 
@@ -149,4 +149,4 @@ class Repository1 extends Component {
   }
 }
 
-export default Repository1;
+export default Demo2;

@@ -8,7 +8,7 @@ import  'echarts/lib/chart/bar';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/title';
 
-class EchartsTest extends Component {
+class Demo1 extends Component {
   componentDidMount() {
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
@@ -35,4 +35,4 @@ class EchartsTest extends Component {
   }
 }
 
-export default EchartsTest;
+export default Demo1;

@@ -36,25 +36,6 @@ const HFields = [
   ['Updated', 'updated']
 ];
 
-const THeader = ({sort, onSearch}) => {
-  let hlist = HFields.map((hf, inx) => (
-    <th key={`hf-${inx}`}>
-      <label>{hf[0]}</label>
-      <SortAsc sort={sort} name={hf[1]}/>
-      <SortDesc sort={sort} name={hf[1]}/>
-      {hf[2] ? null : <FieldSearch onSearch={onSearch} name={hf[1]}/>}
-    </th>
-  ))
-  return (
-    <thead>
-    <tr>
-      <th scope="row">#</th>
-      {hlist}
-    </tr>
-    </thead>
-  )
-}
-
 const Detail = ({idx, item, onEdit, onDelete}) => {
   const {rating, score, summary, tags, title, type, url, views, created, updated} = item;
   return (
@@ -76,7 +57,6 @@ const Detail = ({idx, item, onEdit, onDelete}) => {
 class Msdn extends Component {
   state = {
     search_value: '',
-    search_field: '',
     done: true,
     title: 'MSDN',
     total: 0
@@ -93,10 +73,10 @@ class Msdn extends Component {
   handleSearch = (e, field) => {
     let keyword = e.target.value;
     if (keyword) {
-      this.setState({search_value: keyword.trim().toLowerCase(), search_field: field})
+      this.setState({search_value: keyword.trim().toLowerCase()})
     }
     else {
-      this.setState({search_value: '', search_field: ''})
+      this.setState({search_value: ''})
     }
     e.preventDefault();
   }
@@ -116,10 +96,10 @@ class Msdn extends Component {
     const routes = getSubRoutes(3);
 
     const {msdnList, sortMSDN} = this.props;
-    const {search_value, search_field} = this.state;
+    const {search_value} = this.state;
     let list = [], total_idx = 0;
-    if (search_field && search_value) {
-      list = searchFields(msdnList, search_field, search_value) || [];
+    if (search_value) {
+      list = searchFields(msdnList, search_value) || [];
     }
     else {
       list = msdnList || [];

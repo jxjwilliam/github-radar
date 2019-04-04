@@ -8,13 +8,16 @@ const Navigator = () => (
         <i className="fa fa-user"></i>
       </NavLink>{" | "}
       <NavLink exact activeStyle={{color: 'green'}} to="/stackoverflow">Stackoverflow
-        <i className="fa fa-sign-in"></i>
+        <i className="fa fa-user"></i>
       </NavLink>{" | "}
       <NavLink exact activeStyle={{color: 'green'}} to="/msdn">MSDN
-        <i className="fa fa-sign-out"></i>
+        <i className="fa fa-user"></i>
       </NavLink>{" | "}
       <NavLink exact activeStyle={{color: 'green'}} to="/about">About
         <i className="fa fa-sign-in"></i>
+      </NavLink>{" | "}
+      <NavLink exact activeStyle={{color: 'green'}} to="/contact">Contact
+        <i className="fa fa-sign-out"></i>
       </NavLink>
     </div>
   </React.Fragment>

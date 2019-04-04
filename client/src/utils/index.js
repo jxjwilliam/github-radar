@@ -48,6 +48,25 @@ export const FieldSearch = ({name, onSearch}) => (
   </div>
 )
 
+export const THeader = ListFields => ({sort, onSearch}) => {
+  let hlist = ListFields.map((hf, inx) => (
+    <th key={`hf-${inx}`}>
+      <label>{hf[0]}</label>
+      <SortAsc sort={sort} name={hf[1]}/>
+      <SortDesc sort={sort} name={hf[1]}/>
+      {hf[2] ? null : <FieldSearch onSearch={onSearch} name={hf[1]}/>}
+    </th>
+  ));
+  return (
+    <thead>
+    <tr>
+      <th scope="row">#</th>
+      {hlist}
+    </tr>
+    </thead>
+  )
+}
+
 export const areEqualShallow = (a, b) => {
   for (let key in a) {
     if (!(key in b) || a[key] !== b[key]) {
@@ -74,10 +93,10 @@ export function RouteWithSubRoutes(route) {
   )
 }
 
-export const getSelector = cateArray => ({title, handler}) => (
+export const getSelector = ary => ({title, handler}) => (
   <select onChange={handler}>
     <option value="">{title}</option>
-    {cateArray.map((key, index) => (
+    {ary.map((key, index) => (
       <option key={`${key[0]}-${index}`} value={key[1]}>
         {key[0]}
       </option>

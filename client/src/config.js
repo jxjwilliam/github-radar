@@ -174,7 +174,6 @@ export const getSubRoutes = (category) => {
   return routes[category]['routes']
 }
 
-
 export const Industries = [
   'Financial Services',  //23%
   'Travel & Consumer',  // 21%

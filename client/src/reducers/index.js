@@ -5,8 +5,8 @@ import msdnReducer from './MsdnReducer'
 import stackoverflowReducer from './StackoverflowReducer'
 import youtubeReducer from './YoutubeReducer'
 
-export const searchFields = (state, field, keyword) => {
-  return state.filter(ul => ul[field] && ul[field].toLowerCase().indexOf(keyword) !== -1)
+export const searchFields = (state, keyword) => {
+  return state.filter(ul => ul.toLowerCase().indexOf(keyword) !== -1)
 }
 
 const searchReducer = (state = {}, action) => {

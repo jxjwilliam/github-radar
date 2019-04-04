@@ -34,25 +34,6 @@ const HFields = [
   ['Updated', 'updated']
 ];
 
-const THeader = ({sort, onSearch}) => {
-  let hlist = HFields.map((hf, inx) => (
-    <th key={`hf-${inx}`}>
-      <label>{hf[0]}</label>
-      <SortAsc sort={sort} name={hf[1]}/>
-      <SortDesc sort={sort} name={hf[1]}/>
-      {hf[2] ? null : <FieldSearch onSearch={onSearch} name={hf[1]}/>}
-    </th>
-  ))
-  return (
-    <thead>
-    <tr>
-      <th scope="row">#</th>
-      {hlist}
-    </tr>
-    </thead>
-  )
-}
-
 const Detail = ({idx, item, onEdit, onDelete}) => {
   const {created, updated, tags, desc, score, views, answers, url} = item;
   return (
@@ -72,7 +53,6 @@ const Detail = ({idx, item, onEdit, onDelete}) => {
 class Stackoverflow extends Component {
   state = {
     search_value: '',
-    search_field: '',
     done: true,
     title: 'Stackoverflow',
     total: 0
@@ -89,10 +69,10 @@ class Stackoverflow extends Component {
   handleSearch = (e, field) => {
     let keyword = e.target.value;
     if (keyword) {
-      this.setState({search_value: keyword.trim().toLowerCase(), search_field: field})
+      this.setState({search_value: keyword.trim().toLowerCase()})
     }
     else {
-      this.setState({search_value: '', search_field: ''})
+      this.setState({search_value: ''})
     }
     e.preventDefault();
   }
@@ -120,10 +100,10 @@ class Stackoverflow extends Component {
     const routes = getSubRoutes(2);
 
     const {sofList, sortSOF} = this.props;
-    const {search_value, search_field} = this.state;
+    const {search_value} = this.state;
     let list = [], total_idx = 0;
-    if (search_field && search_value) {
-      list = searchFields(sofList, search_field, search_value) || [];
+    if (search_value) {
+      list = searchFields(sofList, search_value) || [];
     }
     else {
       list = sofList || [];

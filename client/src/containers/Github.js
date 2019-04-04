@@ -7,85 +7,13 @@ import {searchGithub, sortGithub} from '../actions/GithubAction'
 import {searchFields} from '../reducers/'
 import Searchbox from './Search'
 import YearMenu from '../components/YearMenu'
-import {SortAsc, SortDesc, FieldSearch, RouteWithSubRoutes} from '../utils'
+import {RouteWithSubRoutes} from '../utils'
 import {GithubCategories, getSubRoutes} from '../config';
 
-const HMenu = () => {
-  var hlist = GithubCategories.map((gs, i) => (
-      <NavLink key={`${gs[0]}-{i}`} to={gs[1]} title={gs[0]}>
-        {gs[0]}{" | "}
-      </NavLink>
-    )
-  )
-  return (
-    <div className="grid s-btn-group js-filter-btn">
-      {hlist}
-    </div>
-  )
-}
-
-// number-field don't need `FieldSearch`. e.g. Forks, Stars.
-const HFields = [
-  ['Name', 'name'],
-  ['URL', 'url'],
-  ['Description', 'desc'],
-  ['Language', 'language'],
-  ['Stars', 'stars', 'N'],
-  ['Forks', 'forks', 'N'],
-  ['Issues', 'issues', 'N'],
-  ['Watchers', 'watchers', 'N'],
-  ['Size', 'size', 'N'],
-  ['Created', 'created'],
-  ['Updated', 'updated']
-]
-
-const THeader = ({sort, onSearch}) => {
-  let hlist = HFields.map((hf, inx) => (
-    <th key={`hf-${inx}`}>
-      <label>{hf[0]}</label>
-      <SortAsc sort={sort} name={hf[1]}/>
-      <SortDesc sort={sort} name={hf[1]}/>
-      {hf[2] ? null : <FieldSearch onSearch={onSearch} name={hf[1]}/>}
-    </th>
-  ));
-  return (
-    <thead>
-    <tr>
-      <th scope="row">#</th>
-      {hlist}
-    </tr>
-    </thead>
-  )
-}
-
-
-const Detail = ({idx, item}) => {
-  const {
-    created, updated, name, forks, stars, size, url, desc,
-    fname, watchers, issues, language
-  } = item;
-  return (
-    <tr>
-      <td>{idx + 1}</td>
-      <td>{name}</td>
-      <td><a href={url}>{fname}</a></td>
-      <td>{desc}</td>
-      <td>{language}</td>
-      <td>{stars}</td>
-      <td>{forks}</td>
-      <td>{issues}</td>
-      <td>{watchers}</td>
-      <td>{size}</td>
-      <td>{created.replace(/[A-Z].+$/, '')}</td>
-      <td>{updated.replace(/[A-Z].+$/, '')}</td>
-    </tr>
-  )
-}
 
 class Github extends Component {
   state = {
     search_value: '',
-    search_field: '',
     done: true,
     title: 'Github',
     total: 0
@@ -102,10 +30,10 @@ class Github extends Component {
   handleSearch = (e, field) => {
     let keyword = e.target.value;
     if (keyword) {
-      this.setState({search_value: keyword.trim().toLowerCase(), search_field: field})
+      this.setState({search_value: keyword.trim().toLowerCase()})
     }
     else {
-      this.setState({search_value: '', search_field: field})
+      this.setState({search_value: ''})
     }
     e.preventDefault();
   }
@@ -126,10 +54,10 @@ class Github extends Component {
     const routes = getSubRoutes(1);
 
     const {githubList, sortGithub} = this.props;
-    const {search_value, search_field} = this.state;
+    const {search_value} = this.state;
     let list = [], total_idx = 0;
-    if (search_field && search_value) {
-      list = searchFields(githubList, search_field, search_value) || [];
+    if (search_value) {
+      list = searchFields(githubList, search_value) || [];
     }
     else {
       list = githubList || [];
