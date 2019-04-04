@@ -2,9 +2,11 @@ const request = require('request');
 const router = require('express').Router();
 const mongoose = require('mongoose');
 
+//https://upsa.epam.com/workload/rest/v3/skills/tree?itemId=4060741400372133214&skillOwnerType=employee
 const URL = "https://upsa.epam.com/workload/rest/v3/skills/tree?itemId=4060741400372133214&skillOwnerType=employee";
 
-const cookie = "DWRSESSIONID=TGSoPFBqfa3MFzIKa0nA4qi9oDm; JSESSIONID=CDE760F7BDEAA40EED6EC0FC77188C50; _ga=GA1.2.1383420707.1547617907; _gcl_au=1.1.1348874273.1547778282; _ym_uid=154777829639390895; _ym_d=1547778296; __utmc=210128337; __utma=210128337.1383420707.1547617907.1554181836.1554184776.11; __utmz=210128337.1554184776.11.6.utmcsr=login.epam.com|utmccn=(referral)|utmcmd=referral|utmcct=/adfs/ls/; __utmt=1; cdnAvailable=true; __utmb=210128337.2.9.1554184777077"
+const cookie = "DWRSESSIONID=TGSoPFBqfa3MFzIKa0nA4qi9oDm; JSESSIONID=3FCC778D2BDD6576BC9EBFCAB0A9B573; _ga=GA1.2.1383420707.1547617907; _gcl_au=1.1.1348874273.1547778282; _ym_uid=154777829639390895; _ym_d=1547778296; __utmc=210128337; __utma=210128337.1383420707.1547617907.1554195025.1554203897.13; __utmz=210128337.1554203897.13.8.utmcsr=login.epam.com|utmccn=(referral)|utmcmd=referral|utmcct=/adfs/ls/; __utmt=1; cdnAvailable=true; __utmb=210128337.10.9.1554203957548"
+
 const headers = {
   "content-type": "application/json",
   'User-Agent': 'request',
@@ -31,7 +33,14 @@ const level = (data, obj) => {
   if (Array.isArray(dc) && dc.length > 0) {
 
     dc.forEach(c => {
-      obj[c.skillName] = {};
+
+      if(Array.isArray(c.childs) && c.childs.length===0) {
+        obj[c.skillName] = {}; //[];
+      }
+      else {
+        obj[c.skillName] = {};
+
+      }
 
       level(c, obj[c.skillName])
     });
