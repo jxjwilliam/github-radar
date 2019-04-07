@@ -1,26 +1,26 @@
+import {fetching } from '../utils'
+
+const action_succ = data => ({
+  type: 'SEARCH_MSDN',
+  payload: data
+})
+
+const action_fail = error => ({
+  type: 'SEARCH_MSDN_FAIL',
+  error
+})
+
+const MSDN_URL = "/api/msdn/v1/search/"
+
 export const searchMSDN = data => dispatch => {
   var keyword = data.search.trim();
-  var url = "/api/msdn/v1/search/" + keyword;
+  var url =  MSDN_URL + keyword;
 
-  var headers = {
-    "Content-type": "application/json",
-    "Accept": "application/json",
-  }
-
-  return fetch(url, {
-    method: 'GET',
-    headers: headers
-  })
+  return fetching(url)
     .then(res => res.json())
     .then(
-      (data) => dispatch({
-        type: 'SEARCH_MSDN',
-        payload: data
-      }),
-      (error) => dispatch({
-        type: 'SEARCH_MSDN_FAIL',
-        error
-      }))
+      (data) => dispatch(action_succ(data)),
+      (error) => dispatch(action_fail(error)))
 }
 
 export const sortMSDN = (sortBy, seq) => ({

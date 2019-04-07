@@ -4,6 +4,9 @@ import {NavLink, Link} from 'react-router-dom'
 const Navigator = () => (
   <React.Fragment>
     <div style={{float: "right", marginRight: "30px"}}>
+      <NavLink exact activeStyle={{color: 'green'}} to="/trends">Trends
+        <i className="fa fa-user"></i>
+      </NavLink>{" | "}
       <NavLink exact activeStyle={{color: 'green'}} to="/github">Github
         <i className="fa fa-user"></i>
       </NavLink>{" | "}

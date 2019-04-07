@@ -67,20 +67,6 @@ export const THeader = ListFields => ({sort, onSearch}) => {
   )
 }
 
-export const areEqualShallow = (a, b) => {
-  for (let key in a) {
-    if (!(key in b) || a[key] !== b[key]) {
-      return false;
-    }
-  }
-  for (let key in b) {
-    if (!(key in a)) {
-      return false;
-    }
-  }
-  return true;
-}
-
 export function RouteWithSubRoutes(route) {
   return (
     <Route
@@ -104,6 +90,23 @@ export const getSelector = ary => ({title, handler}) => (
   </select>
 )
 
+
+const HEADERS = {
+  "Content-type": "application/json",
+  "Accept": "application/json",
+}
+
+export const fetching = (url, opts={}) => {
+
+  var headers = {...HEADERS, ...opts.headers}
+  var method = opts.method ? opts.method : 'GET'
+
+  return fetch(url, {
+    method: method,
+    headers: headers
+  })
+}
+
 export const Loading = loadingProp => WrappedComponent => {
   return class Loading extends Component {
     render() {
@@ -114,4 +117,18 @@ export const Loading = loadingProp => WrappedComponent => {
         : <WrappedComponent {...this.props}/>;
     }
   }
+}
+
+export const areEqualShallow = (a, b) => {
+  for (let key in a) {
+    if (!(key in b) || a[key] !== b[key]) {
+      return false;
+    }
+  }
+  for (let key in b) {
+    if (!(key in a)) {
+      return false;
+    }
+  }
+  return true;
 }

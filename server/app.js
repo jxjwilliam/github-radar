@@ -4,8 +4,9 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const debug = require('debug')('server:server');
 const http = require('http');
+const cors = require('cors')
+const jwt = require('jsonwebtoken');
 
 const github = require('./routes/github');
 const stackoverflow = require('./routes/stackoverflow');
@@ -18,12 +19,17 @@ db.connect();
 const app = express();
 app.set('port', process.env.PORT || 8000);
 
-//app.use(favicon(path.join(__dirname, '.', 'build', 'favicon.ico')));
+// view engine setup
+app.set('view engine', 'html');
+app.set('superSecret', 'epamwebtoken');
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, './', 'build')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/github/v1/', github);
 app.use('/api/stackoverflow/v1/', stackoverflow);
