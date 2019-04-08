@@ -1,28 +1,11 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {NavLink} from 'react-router-dom'
 import {searchAction, headerAction} from '../actions'
 import {searchSOF, sortSOF} from '../actions/StackoverflowAction'
-import {searchFields} from '../reducers/'
 import Searchbox from './Search'
-import YearMenu from '../components/YearMenu'
-import {SortAsc, SortDesc, FieldSearch, RouteWithSubRoutes} from '../utils'
-import {StackoverflowCategories, getSubRoutes} from '../config';
-
-const SMenu = () => {
-  var hlist = StackoverflowCategories.map((gs, i) => (
-      <NavLink key={`${gs[0]}-{i}`} to={gs[1]} title={gs[0]}>
-        {gs[0]}{" | "}
-      </NavLink>
-    )
-  )
-  return (
-    <div className="grid s-btn-group js-filter-btn">
-      {hlist}
-    </div>
-  )
-}
+import {filterTableColumn, getSubMenu, getYears, getTHeader, getSubRoutes} from '../utils'
+import {StackoverflowItems} from '../Routers'
 
 const HFields = [
   ['Tags', 'tags'],
@@ -34,7 +17,7 @@ const HFields = [
   ['Updated', 'updated']
 ];
 
-const Detail = ({idx, item, onEdit, onDelete}) => {
+const Detail = ({idx, item}) => {
   const {created, updated, tags, desc, score, views, answers, url} = item;
   return (
     <tr>
@@ -97,13 +80,17 @@ class Stackoverflow extends Component {
   }
 
   render() {
+    const HMenu = getSubMenu(Object.keys(StackoverflowItems))
+    const THeader = getTHeader(HFields)
+
     const routes = getSubRoutes(2);
 
     const {sofList, sortSOF} = this.props;
     const {search_value} = this.state;
     let list = [], total_idx = 0;
     if (search_value) {
-      list = searchFields(sofList, search_value) || [];
+      list = filterTableColumn(sofList, search_value);
+      total_idx = list.length
     }
     else {
       list = sofList || [];
@@ -113,7 +100,7 @@ class Stackoverflow extends Component {
     return (
       <div className="container" style={{paddingTop: 48}}>
         <div className="row">
-          <SMenu/>
+          {HMenu}
         </div>
         <div className="row">
           <div className="col-md-10">
@@ -141,23 +128,22 @@ class Stackoverflow extends Component {
             </div>
           )}
 
-        <YearMenu nav="stackoverflow"/>
+        {getYears(8)}
+
         <div className="row">
-          { routes.map((route, i) => (
-            <RouteWithSubRoutes key={`stackoverflow-${i}`} {...route}/>
-          ))}
+          {/*{ routes.map((route, i) => (*/}
+          {/*<getSubRoutes key={`stackoverflow-${i}`} {...route}/>*/}
+          {/*))}*/}
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    sofList: state.sofList,
-    search: state.search
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  sofList: state.sofList,
+  search: state.search
+})
 
 const mapDispatchToProps = (dispatch) => {
   let actions = bindActionCreators({

@@ -1,5 +1,5 @@
 import React, {Fragment, Component} from 'react'
-import {Route} from 'react-router-dom'
+import {Route, NavLink} from 'react-router-dom'
 
 export const loadingDefer = ms => {
   const promise = new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ export const SortDesc = ({sort, name}) => (
   </button>
 )
 
-export const FieldSearch = ({name, onSearch}) => (
+export const SearchField = ({name, onSearch}) => (
   <div className="input-group">
     <input
       type="search"
@@ -48,13 +48,32 @@ export const FieldSearch = ({name, onSearch}) => (
   </div>
 )
 
-export const THeader = ListFields => ({sort, onSearch}) => {
-  let hlist = ListFields.map((hf, inx) => (
-    <th key={`hf-${inx}`}>
+
+export const filterTableColumn = (state, keyword) => state.filter(ul => ul.toLowerCase().indexOf(keyword) !== -1)
+
+
+export const getSubMenu = ary => {
+  const smlist = ary.map((sm, i) => (
+      <NavLink key={`${sm}-{i}`} to={sm} title={sm}>
+        {sm}{" | "}
+      </NavLink>
+    )
+  )
+  return (
+    <div className="grid smenu">
+      {smlist}
+    </div>
+  )
+}
+
+
+export const getTHeader = ListFields => ({sort, onSearch}) => {
+  const hlist = ListFields.map((hf, i) => (
+    <th key={`hf-${i}`}>
       <label>{hf[0]}</label>
       <SortAsc sort={sort} name={hf[1]}/>
       <SortDesc sort={sort} name={hf[1]}/>
-      {hf[2] ? null : <FieldSearch onSearch={onSearch} name={hf[1]}/>}
+      {hf[2] ? null : <SearchField onSearch={onSearch} name={hf[1]}/>}
     </th>
   ));
   return (
@@ -67,7 +86,7 @@ export const THeader = ListFields => ({sort, onSearch}) => {
   )
 }
 
-export function RouteWithSubRoutes(route) {
+export function getSubRoutes(route) {
   return (
     <Route
       path={route.path}
@@ -90,22 +109,52 @@ export const getSelector = ary => ({title, handler}) => (
   </select>
 )
 
+/**
+ * <Route path="/user/:username" component={User} />;
+ * function User({ match }) {
+ *   return <h1>Hello {match.params.username}!</h1>;
+ * }
+ * match.params.year = /:year
+ */
+export const getYears = (total_year = 10) => nav => {
+  let years = [];
+  let max_year = new Date().getFullYear(), min_year = max_year - total_year;
+  for (let i = max_year; i > min_year; i--) {
+    years.push(i)
+  }
+  var ylist = years.map((y, i) => (
+    <li key={`${y}-${i}`}>
+      <NavLink exact to={`/${nav}/${y}`} title={y} activeStyle={{
+        fontweight: "bold",
+        color: "red"
+      }}>{y}</NavLink>
+    </li>
+  ))
 
-const HEADERS = {
-  "Content-type": "application/json",
-  "Accept": "application/json",
+  return (
+    <div style={{position: "static"}}>
+      <ul>
+        {ylist}
+      </ul>
+    </div>
+  )
 }
 
-export const fetching = (url, opts={}) => {
+export const fetching = (url, opts = {}) => {
+  const HEADERS = {
+    "Content-type": "application/json",
+    "Accept": "application/json",
+  }
 
-  var headers = {...HEADERS, ...opts.headers}
-  var method = opts.method ? opts.method : 'GET'
+  const headers = {...HEADERS, ...opts.headers}
+  const method = opts.method || 'GET'
 
   return fetch(url, {
     method: method,
     headers: headers
   })
 }
+
 
 export const Loading = loadingProp => WrappedComponent => {
   return class Loading extends Component {

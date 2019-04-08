@@ -1,28 +1,11 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {NavLink} from 'react-router-dom'
 import {searchAction, headerAction} from '../actions/'
 import {searchMSDN, sortMSDN} from '../actions/MsdnAction'
-import {searchFields} from '../reducers/'
 import Searchbox from './Search'
-import YearMenu from '../components/YearMenu'
-import {SortAsc, SortDesc, FieldSearch, RouteWithSubRoutes} from '../utils'
-import {MsdnCategories, getSubRoutes} from '../config';
-
-const HMenu = () => {
-  var hlist = MsdnCategories.map((gs, i) => (
-      <NavLink key={`${gs[0]}-{i}`} to={gs[1]} title={gs[0]}>
-        {gs[0]}{" | "}
-      </NavLink>
-    )
-  )
-  return (
-    <div className="grid s-btn-group js-filter-btn">
-      {hlist}
-    </div>
-  )
-}
+import {filterTableColumn, getSubMenu, getYears, getTHeader, getSubRoutes} from '../utils'
+import {MsdnItems} from '../Routers'
 
 const HFields = [
   ['Rating', 'rating'],
@@ -36,7 +19,7 @@ const HFields = [
   ['Updated', 'updated']
 ];
 
-const Detail = ({idx, item, onEdit, onDelete}) => {
+const Detail = ({idx, item}) => {
   const {rating, score, summary, tags, title, type, url, views, created, updated} = item;
   return (
     <tr>
@@ -93,13 +76,16 @@ class Msdn extends Component {
   }
 
   render() {
-    const routes = getSubRoutes(3);
+
+    const HMenu = getSubMenu(Object.keys(MsdnItems))
+    const THeader = getTHeader(HFields)
 
     const {msdnList, sortMSDN} = this.props;
     const {search_value} = this.state;
     let list = [], total_idx = 0;
     if (search_value) {
-      list = searchFields(msdnList, search_value) || [];
+      list = filterTableColumn(msdnList, search_value) || [];
+      total_idx = list.length
     }
     else {
       list = msdnList || [];
@@ -109,7 +95,7 @@ class Msdn extends Component {
     return (
       <div className="container" style={{paddingTop: 48}}>
         <div className="row">
-          <HMenu/>
+          {HMenu}
         </div>
         <div className="row">
           <div className="col-md-10">
@@ -137,23 +123,22 @@ class Msdn extends Component {
             </div>
           )}
 
-        <YearMenu nav="msdn"/>
+        {getYears(10)}
+
         <div className="row">
-          { routes.map((route, i) => (
-            <RouteWithSubRoutes key={`msdn-${i}`} {...route}/>
-          ))}
+          {/*{ routes.map((route, i) => (*/}
+            {/*<getSubRoutes key={`msdn-${i}`} {...route}/>*/}
+          {/*))}*/}
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    msdnList: state.msdnList,
-    search: state.search
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  msdnList: state.msdnList,
+  search: state.search
+})
 
 const mapDispatchToProps = (dispatch) => {
   let actions = bindActionCreators({

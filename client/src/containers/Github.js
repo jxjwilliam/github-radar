@@ -1,15 +1,49 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {NavLink} from 'react-router-dom'
+import {Link} from 'react-router-dom'
+import moment from 'moment'
 import {searchAction, headerAction} from '../actions'
 import {searchGithub, sortGithub} from '../actions/GithubAction'
-import {searchFields} from '../reducers/'
 import Searchbox from './Search'
-import YearMenu from '../components/YearMenu'
-import {RouteWithSubRoutes} from '../utils'
-import {GithubCategories, getSubRoutes} from '../config';
+import {filterTableColumn, getSubMenu, getYears, getTHeader, getSubRoutes} from '../utils'
+import {GithubItems} from '../Routers'
 
+const HFields = [
+  ['Name', 'name'],
+  ['URL', 'url'],
+  ['Description', 'desc'],
+  ['Language', 'language'],
+  ['Stars', 'stars', 'N'],
+  ['Forks', 'forks', 'N'],
+  ['Issues', 'issues', 'N'],
+  ['Watchers', 'watchers', 'N'],
+  ['Size', 'size', 'N'],
+  ['Created', 'created'],
+  ['Updated', 'updated']
+]
+
+const Detail = ({idx, item}) => {
+  const {
+    created, updated, name, forks, stars, size, url, desc, fname, watchers, issues, language
+  } = item;
+  return (
+    <tr>
+      <td>{idx + 1}</td>
+      <td>{name}</td>
+      <td><Link to={url}>{fname}</Link></td>
+      <td>{desc}</td>
+      <td>{language}</td>
+      <td>{stars}</td>
+      <td>{forks}</td>
+      <td>{issues}</td>
+      <td>{watchers}</td>
+      <td>{size}</td>
+      <td>{moment(created).format('YYYY-MM-DD')}</td>
+      <td>{moment(updated).format('YYYY-MM-DD')}</td>
+    </tr>
+  )
+}
 
 class Github extends Component {
   state = {
@@ -51,23 +85,29 @@ class Github extends Component {
   }
 
   render() {
-    const routes = getSubRoutes(1);
+
+    const HMenu = getSubMenu(Object.keys(GithubItems))
+
+    const THeader = getTHeader(HFields)
+
+    //const routes = getSubRoutes(1);
 
     const {githubList, sortGithub} = this.props;
     const {search_value} = this.state;
     let list = [], total_idx = 0;
     if (search_value) {
-      list = searchFields(githubList, search_value) || [];
+      list = filterTableColumn(githubList, search_value) || [];
+      total_idx = list.length
     }
     else {
-      list = githubList || [];
+      list = githubList;
       total_idx = githubList.length;
     }
 
     return (
       <div className="container" style={{paddingTop: 48}}>
         <div className="row">
-          <HMenu />
+          {HMenu}
         </div>
         <div className="row">
           <div className="col-md-10">
@@ -94,21 +134,23 @@ class Github extends Component {
               </table>
             </div>
           )}
-        <YearMenu nav="github"/>
+
+        {getYears(12)}
+
         <div className="row">
-          { routes.map((route, i) => (
-            <RouteWithSubRoutes key={`github-${i}`} {...route}/>
-          ))}
+          {/*{ routes.map((route, i) => (*/}
+          {/*<getSubRoutes key={`github-${i}`} {...route}/>*/}
+          {/*))}*/}
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
     githubList: state.githubList,
-    search: state.search
+    total: state.total,
   }
 }
 

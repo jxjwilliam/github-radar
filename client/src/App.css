@@ -140,3 +140,7 @@
 .link-button:focus {
   text-decoration: none;
 }
+
+.smenu:first-letter {
+  text-transform: capitalize
+}

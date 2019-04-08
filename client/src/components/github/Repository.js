@@ -3,7 +3,7 @@ import Demo1 from '../echarts/Demo1'
 
 class Repository extends Component {
 
-  // number-field don't need `FieldSearch`. e.g. Forks, Stars.
+  // number-field don't need `SearchField`. e.g. Forks, Stars.
   state = {
     theader: [
       ['Name', 'name'],

@@ -8,6 +8,7 @@ const http = require('http');
 const cors = require('cors')
 const jwt = require('jsonwebtoken');
 
+const home = require('./routes/');
 const github = require('./routes/github');
 const stackoverflow = require('./routes/stackoverflow');
 const msdn = require('./routes/msdn');
@@ -23,17 +24,18 @@ app.set('port', process.env.PORT || 8000);
 app.set('view engine', 'html');
 app.set('superSecret', 'epamwebtoken');
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../client/public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, '../client/public')));
 
+app.use("/", home);
 app.use('/api/github/v1/', github);
-app.use('/api/stackoverflow/v1/', stackoverflow);
 app.use('/api/msdn/v1/', msdn);
+app.use('/api/stackoverflow/v1/', stackoverflow);
 
 app.use('/api/upsa/v1/', upsa);
 
@@ -57,6 +59,9 @@ app.use(function (err, req, res, next) {
 
 const server = http.createServer(app);
 
-server.listen(8888);
+const port = app.get('port');
+server.listen(port, () => {
+  console.log('The server is starting at port ' + port + '...')
+});
 
 module.exports = app;

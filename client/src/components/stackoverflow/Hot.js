@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
 
-const Hottest = ({match}) => {
+const Hot = ({match}) => {
   return (
     <Fragment>
       <h1>Hottest</h1>
@@ -8,4 +8,4 @@ const Hottest = ({match}) => {
   )
 }
 
-export default Hottest;
+export default Hot;

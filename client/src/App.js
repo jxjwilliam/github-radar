@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import {routes, Languages} from './config'
-import {Footer, Navigator} from './components'
+import {RootRouters} from './Routers'
 import Header from './containers/Header'
+import {Navigator, Footer} from './components'
 import './App.css';
+import Github from './containers/Github'
+import About from './components/About'
 
-const TrendsRouters = ({routes}) => {
-  const rs = routes.map(r => {
-    let {routes, ...o} = r;
-    return <Route path={o.path} component={o.component} key={o.component} {...o} />
-  })
+const TrendsRouters = props => {
+  const {routes} = props;
+  const rs = routes.map((r, i) => (
+    <Route path={r.path} component={r.component} key={`${r.path.substr(1)}_${i}`}/>
+  ));
+
   return (
     <Switch>
       {rs}
@@ -22,9 +25,9 @@ class App extends Component {
     return (
       <Router>
         <div className="App container">
-          <Header title="GitHub"/>
+          <Header title="Trends and Prediction"/>
           <Navigator />
-          <TrendsRouters routes={routes}/>
+          <TrendsRouters routes={RootRouters}/>
           <Footer />
         </div>
       </Router>

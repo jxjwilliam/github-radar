@@ -1,9 +1,7 @@
 import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
-import {Languages, GithubCategories, StackoverflowCategories, MsdnCategories} from '../config'
 import {searchAction} from '../actions/'
 import {getSelector} from '../utils'
-
 
 class Searchbox extends React.Component {
 
@@ -17,11 +15,6 @@ class Searchbox extends React.Component {
   }
 
   render() {
-
-    const GithubSelector = getSelector(GithubCategories);
-    const LanguageSelector = getSelector(Languages);
-    const StackoverflowSelector = getSelector(StackoverflowCategories);
-    const MsdnSelector = getSelector(MsdnCategories);
 
     let placeholder = 'Search ' + this.props.search.placeholder || '...';
     let selector = this.props.search.selectors;
@@ -48,25 +41,6 @@ class Searchbox extends React.Component {
               <i className="fa fa-search-plus"></i>
             </button>
           </div>
-          {
-            selector === 1 ? (
-                <Fragment>
-                  <GithubSelector title="Github Criteria" handler={this.handleOptionChange}/>
-                  <LanguageSelector title="Language" handler={this.handleSelectChange}/>
-                </Fragment>
-              ) :
-              selector === 2 ? (
-                  <Fragment>
-                    <StackoverflowSelector title="SOF Criteria" handler={this.handleSelectChange}/>
-                  </Fragment>
-                ) :
-                selector === 3 ? (
-                    <Fragment>
-                      <MsdnSelector title="MSDN Criteria" handler={this.handleSelectChange}/>
-                    </Fragment>
-                  ) : null
-          }
-
         </div>
       </Fragment>
     );

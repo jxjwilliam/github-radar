@@ -4,6 +4,7 @@ const About = ({match}) => {
   return (
     <Fragment>
       <h1>About</h1>
+      <h2>{match.path}</h2>
     </Fragment>
   )
 }

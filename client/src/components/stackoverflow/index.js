@@ -1,10 +1,10 @@
-import Hottest from './Hottest'
+import Hot from './Hot'
 import Latest from './Latest'
 import Tags from './Tags'
 import Views from './Views'
 
 export default {
-  Hottest,
+  Hot,
   Latest,
   Tags,
   Views

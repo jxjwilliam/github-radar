@@ -3,11 +3,6 @@ import {combineReducers} from 'redux'
 import githubReducer from './GithubReducer'
 import msdnReducer from './MsdnReducer'
 import stackoverflowReducer from './StackoverflowReducer'
-import youtubeReducer from './YoutubeReducer'
-
-export const searchFields = (state, keyword) => {
-  return state.filter(ul => ul.toLowerCase().indexOf(keyword) !== -1)
-}
 
 const searchReducer = (state = {}, action) => {
   switch (action.type) {
@@ -29,7 +24,6 @@ export default combineReducers({
   githubList: githubReducer,
   msdnList: msdnReducer,
   sofList: stackoverflowReducer,
-  youtubeList: youtubeReducer,
   search: searchReducer,
   title: headerReducer
 })

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {loadingDefer} from '../utils'
+import {loadingDefer} from '../../utils'
 
 // https://echarts.baidu.com/examples/editor.html?c=custom-bar-trend
 import echarts from 'echarts/lib/echarts';
