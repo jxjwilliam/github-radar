@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 //https://upsa.epam.com/workload/rest/v3/skills/tree?itemId=4060741400372133214&skillOwnerType=employee
 const URL = "https://upsa.epam.com/workload/rest/v3/skills/tree?itemId=4060741400372133214&skillOwnerType=employee";
 
-const cookie = "DWRSESSIONID=TGSoPFBqfa3MFzIKa0nA4qi9oDm; JSESSIONID=3FCC778D2BDD6576BC9EBFCAB0A9B573; _ga=GA1.2.1383420707.1547617907; _gcl_au=1.1.1348874273.1547778282; _ym_uid=154777829639390895; _ym_d=1547778296; __utmc=210128337; __utma=210128337.1383420707.1547617907.1554195025.1554203897.13; __utmz=210128337.1554203897.13.8.utmcsr=login.epam.com|utmccn=(referral)|utmcmd=referral|utmcct=/adfs/ls/; __utmt=1; cdnAvailable=true; __utmb=210128337.10.9.1554203957548"
+const cookie = "DWRSESSIONID=4k8ViSbqjERaF0Xa9tGfZkRtKEm; JSESSIONID=07E70449C635DC785F8796DD7F45D72F; _ga=GA1.2.1383420707.1547617907; _ym_uid=154777829639390895; _ym_d=1547778296; __utmc=210128337; __utma=210128337.1383420707.1547617907.1555557734.1555565104.15; __utmz=210128337.1555565104.15.9.utmcsr=login.epam.com|utmccn=(referral)|utmcmd=referral|utmcct=/adfs/ls/; __utmt=1; cdnAvailable=true; __utmb=210128337.2.9.1555565105180";
 
 const headers = {
   "content-type": "application/json",
